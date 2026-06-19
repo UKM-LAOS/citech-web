@@ -15,9 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Admin Citech',
             'email' => 'admin@citech.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
@@ -29,6 +27,41 @@ class DatabaseSeeder extends Seeder
             'email' => 'peserta@citech.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
             'is_admin' => false,
+        ]);
+
+        \App\Models\Timeline::create([
+            'tanggal_mulai' => '2026-06-27 00:00:00',
+            'tanggal_selesai' => '2026-07-18 23:59:59',
+            'tahap' => 'pendaftaran_b1',
+            'updated_by' => $admin->id_user,
+        ]);
+
+        \App\Models\Timeline::create([
+            'tanggal_mulai' => '2026-07-19 00:00:00',
+            'tanggal_selesai' => '2026-08-01 23:59:59',
+            'tahap' => 'pendaftaran_b2',
+            'updated_by' => $admin->id_user,
+        ]);
+
+        \App\Models\Timeline::create([
+            'tanggal_mulai' => '2026-06-27 00:00:00',
+            'tanggal_selesai' => '2026-08-01 23:59:59',
+            'tahap' => 'penyisihan',
+            'updated_by' => $admin->id_user,
+        ]);
+
+        \App\Models\Timeline::create([
+            'tanggal_mulai' => '2026-08-11 00:00:00',
+            'tanggal_selesai' => '2026-08-21 23:59:59',
+            'tahap' => 'final',
+            'updated_by' => $admin->id_user,
+        ]);
+
+        \App\Models\Timeline::create([
+            'tanggal_mulai' => '2026-08-23 00:00:00',
+            'tanggal_selesai' => '2026-08-23 23:59:59',
+            'tahap' => 'awarding',
+            'updated_by' => $admin->id_user,
         ]);
     }
 }

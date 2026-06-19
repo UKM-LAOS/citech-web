@@ -1,16 +1,22 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Models\Timeline;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    $activeTimeline = Timeline::where('tanggal_selesai', '>', now())
+        ->orderBy('tanggal_selesai', 'asc')
+        ->first() ?? Timeline::orderBy('tanggal_selesai', 'desc')->first();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'activeTimeline' => $activeTimeline,
+        'allTimelines' => Timeline::orderBy('tanggal_mulai', 'asc')->get(),
     ]);
 });
 
