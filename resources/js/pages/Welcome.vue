@@ -563,20 +563,20 @@ const formattedTimelineItems = computed(() => {
                 <!-- Vertical Alternating Timeline -->
                 <div class="relative">
                     <!-- Central line -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-[4px] bg-[#1e4d8c]/15"></div>
+                    <div class="absolute left-6 md:left-1/2 transform -translate-x-1/2 h-full w-[4px] bg-[#1e4d8c]/15"></div>
 
                     <!-- Timeline Loop -->
                     <div class="space-y-16 relative z-10">
                         <div 
                             v-for="(item, index) in formattedTimelineItems" 
                             :key="index"
-                            class="flex flex-col md:flex-row items-center md:justify-between relative transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform"
+                            class="flex flex-col md:flex-row items-start md:items-center md:justify-between relative transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform"
                             :class="[revealedSections.timeline ? 'opacity-100 translate-x-0' : (item.alignLeft ? 'opacity-0 -translate-x-16' : 'opacity-0 translate-x-16'), {'md:flex-row-reverse': item.alignLeft}]"
                             :style="{ transitionDelay: revealedSections.timeline ? `${200 + index * 150}ms` : '0ms' }"
                         >
                             <!-- Line dot connector with pulse ring on active -->
                             <div 
-                                class="absolute left-1/2 transform -translate-x-1/2 top-6 w-6 h-6 rounded-full border-4 bg-white flex items-center justify-center transition-all duration-500 z-20"
+                                class="absolute left-6 md:left-1/2 transform -translate-x-1/2 top-6 w-6 h-6 rounded-full border-4 bg-white flex items-center justify-center transition-all duration-500 z-20"
                                 :class="[
                                     item.isActive 
                                         ? 'border-amber-500 scale-125 shadow-md shadow-amber-500/35 ring-4 ring-amber-500/25' 
@@ -588,9 +588,9 @@ const formattedTimelineItems = computed(() => {
                             </div>
 
                             <!-- Date Badge Column (Pill with solid highlight) -->
-                            <div class="w-full md:w-1/2 flex justify-center px-12" :class="[item.alignLeft ? 'md:justify-start' : 'md:justify-end']">
+                            <div class="w-full md:w-1/2 flex justify-start pl-16 pr-4 md:px-12" :class="[item.alignLeft ? 'md:justify-start' : 'md:justify-end']">
                                 <div 
-                                    class="font-bold text-sm px-8 py-4 rounded-2xl transition duration-300 shadow-md tracking-wide text-center"
+                                    class="font-bold text-xs sm:text-sm px-5 py-2.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl transition duration-300 shadow-md tracking-wide text-center"
                                     :class="[
                                         item.isActive
                                             ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/20 hover:scale-105'
@@ -602,7 +602,7 @@ const formattedTimelineItems = computed(() => {
                             </div>
 
                             <!-- Content details panel -->
-                            <div class="w-full md:w-1/2 px-12 mt-6 md:mt-0 text-center" :class="[item.alignLeft ? 'md:text-right' : 'md:text-left']">
+                            <div class="w-full md:w-1/2 pl-16 pr-4 md:px-12 mt-3 md:mt-0 text-left" :class="[item.alignLeft ? 'md:text-right' : 'md:text-left']">
                                 <div 
                                     class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-blue-300/60 hover:-translate-y-1 transition-all duration-300"
                                     :class="[
