@@ -50,6 +50,22 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
+        if ($user->tim) {
+            $tim = $user->tim->loadMissing('dokumen_registrasi', 'pembayaran');
+
+            if ($tim->dokumen_registrasi?->link_file_registrasi) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(
+                    $tim->dokumen_registrasi->link_file_registrasi
+                );
+            }
+
+            if ($tim->pembayaran?->bukti_pembayaran) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(
+                    $tim->pembayaran->bukti_pembayaran
+                );
+            }
+        }
+
         Auth::logout();
 
         $user->delete();

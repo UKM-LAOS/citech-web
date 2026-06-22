@@ -58,14 +58,6 @@ class Tim extends Model
     /**
      * Get the registration document for the team.
      */
-    public function dokumenRegistrasi(): HasOne
-    {
-        return $this->hasOne(DokumenRegistrasi::class, 'id_tim', 'id_tim');
-    }
-
-    /**
-     * Get the registration document for the team (snake_case alias).
-     */
     public function dokumen_registrasi(): HasOne
     {
         return $this->hasOne(DokumenRegistrasi::class, 'id_tim', 'id_tim');
@@ -77,14 +69,6 @@ class Tim extends Model
     public function pembayaran(): HasOne
     {
         return $this->hasOne(Pembayaran::class, 'id_tim', 'id_tim');
-    }
-
-    /**
-     * Get the submission documents for the team.
-     */
-    public function submissions(): HasMany
-    {
-        return $this->hasMany(DokumenSubmission::class, 'id_tim', 'id_tim');
     }
 
     /**

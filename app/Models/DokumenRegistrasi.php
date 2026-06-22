@@ -46,13 +46,16 @@ class DokumenRegistrasi extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'uploaded_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'uploaded_at' => 'datetime',
+        ];
+    }
 
     /**
      * Get the team that owns the registration document.
