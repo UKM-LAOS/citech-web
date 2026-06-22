@@ -3,8 +3,13 @@
 use App\Enums\StatusPembayaran;
 use App\Enums\StatusRegistrasi;
 use App\Enums\StatusSeleksi;
+use App\Models\DokumenRegistrasi;
+use App\Models\DokumenSubmission;
 use App\Models\MemberTim;
+use App\Models\Pembayaran;
+use App\Models\Tim;
 use App\Models\Timeline;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,14 +28,16 @@ Route::get('/', function () {
         'activeTimeline' => Timeline::currentActive(),
         'allTimelines' => Timeline::orderBy('tanggal_mulai', 'asc')->get(),
     ]);
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
-    if (auth()->user()->is_admin) {
+    /** @var User $authUser */
+    $authUser = auth()->user();
+    if ($authUser->is_admin) {
         return redirect()->route('admin.dashboard');
     }
 
-    $user = auth()->user()->load('tim.members', 'tim.dokumen_registrasi', 'tim.pembayaran', 'tim.submission');
+    $user = $authUser->load('tim.members', 'tim.dokumen_registrasi', 'tim.pembayaran', 'tim.submission');
 
     return Inertia::render('Dashboard', [
         'activeTimeline' => Timeline::currentActive(),
@@ -43,7 +50,9 @@ Route::get('/dashboard', function () {
 // Peserta Routes
 Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     Route::get('/dashboard/tim', function () {
-        $user = auth()->user()->load('tim.members', 'tim.dokumen_registrasi', 'tim.pembayaran', 'tim.submission');
+        /** @var User $authUser */
+        $authUser = auth()->user();
+        $user = $authUser->load('tim.members', 'tim.dokumen_registrasi', 'tim.pembayaran', 'tim.submission');
 
         return Inertia::render('peserta/Tim', [
             'userTeam' => $user->tim,
@@ -53,7 +62,9 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     })->name('peserta.tim');
 
     Route::post('/dashboard/tim', function (Request $request) {
+        /** @var User $user */
         $user = auth()->user();
+        /** @var Tim|null $existingTim */
         $existingTim = $user->tim;
 
         if ($existingTim && $existingTim->dokumen_registrasi) {
@@ -136,7 +147,7 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
         }
 
         DB::transaction(function () use ($request, $user, $existingTim) {
-            $tim = \App\Models\Tim::updateOrCreate(
+            $tim = Tim::updateOrCreate(
                 ['id_user' => $user->id_user],
                 [
                     'nama_tim' => $request->nama_tim,
@@ -180,7 +191,9 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     })->name('peserta.tim.store');
 
     Route::post('/dashboard/tim/dokumen', function (Request $request) {
+        /** @var User $user */
         $user = auth()->user();
+        /** @var Tim|null $tim */
         $tim = $user->tim;
         if (! $tim) {
             throw ValidationException::withMessages([
@@ -209,7 +222,7 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
 
         $path = $request->file('file_dokumen')->store('dokumen_registrasi', 'public');
 
-        \App\Models\DokumenRegistrasi::updateOrCreate(
+        DokumenRegistrasi::updateOrCreate(
             ['id_tim' => $tim->id_tim],
             [
                 'link_file_registrasi' => $path,
@@ -223,7 +236,9 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     })->name('peserta.tim.dokumen.store');
 
     Route::delete('/dashboard/tim/dokumen', function () {
+        /** @var User $user */
         $user = auth()->user();
+        /** @var Tim|null $tim */
         $tim = $user->tim;
         if (! $tim || ! $tim->dokumen_registrasi) {
             throw ValidationException::withMessages([
@@ -244,7 +259,9 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     })->name('peserta.tim.dokumen.destroy');
 
     Route::post('/dashboard/tim/pembayaran', function (Request $request) {
+        /** @var User $user */
         $user = auth()->user();
+        /** @var Tim|null $tim */
         $tim = $user->tim;
         if (! $tim) {
             throw ValidationException::withMessages([
@@ -273,7 +290,7 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
 
         $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
 
-        \App\Models\Pembayaran::updateOrCreate(
+        Pembayaran::updateOrCreate(
             ['id_tim' => $tim->id_tim],
             [
                 'bukti_pembayaran' => $path,
@@ -287,7 +304,9 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     })->name('peserta.tim.pembayaran.store');
 
     Route::delete('/dashboard/tim/pembayaran', function () {
+        /** @var User $user */
         $user = auth()->user();
+        /** @var Tim|null $tim */
         $tim = $user->tim;
         if (! $tim || ! $tim->pembayaran) {
             throw ValidationException::withMessages([
@@ -309,7 +328,9 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
     })->name('peserta.tim.pembayaran.destroy');
 
     Route::post('/dashboard/tim/submission', function (Request $request) {
+        /** @var User $user */
         $user = auth()->user();
+        /** @var Tim|null $tim */
         $tim = $user->tim;
         if (! $tim) {
             throw ValidationException::withMessages([
@@ -343,7 +364,7 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
             'link_file_submission.max' => 'Link maksimal 1000 karakter.',
         ]);
 
-        \App\Models\DokumenSubmission::create([
+        DokumenSubmission::create([
             'id_tim' => $tim->id_tim,
             'link_file_submission' => $request->link_file_submission,
             'uploaded_at' => now(),
@@ -360,11 +381,25 @@ Route::middleware(['auth', 'verified', 'peserta'])->group(function () {
 // Admin Routes
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('admin/Dashboard');
+        $totalTim = Tim::count();
+        $totalSubmission = DokumenSubmission::count();
+        $totalTimVerified = Tim::whereIn('status_seleksi', StatusSeleksi::qualified())->count();
+        $persyaratanPending = DokumenRegistrasi::where('status_registrasi', StatusRegistrasi::Pending->value)->count();
+        $pembayaranPending = Pembayaran::where('status_pembayaran', StatusPembayaran::Pending->value)->count();
+
+        return Inertia::render('admin/Dashboard', [
+            'statistics' => [
+                'totalTim' => $totalTim,
+                'totalSubmission' => $totalSubmission,
+                'totalTimVerified' => $totalTimVerified,
+                'persyaratanPending' => $persyaratanPending,
+                'pembayaranPending' => $pembayaranPending,
+            ],
+        ]);
     })->name('admin.dashboard');
 
     Route::get('/konfirmasi-persyaratan', function () {
-        $teams = \App\Models\Tim::with(['members', 'dokumen_registrasi'])->get();
+        $teams = Tim::with(['members', 'dokumen_registrasi'])->get();
 
         return Inertia::render('admin/KonfirmasiPersyaratan', [
             'teams' => $teams,
@@ -382,7 +417,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             'catatan.max' => 'Catatan penolakan maksimal 1000 karakter.',
         ]);
 
-        $dokumen = \App\Models\DokumenRegistrasi::findOrFail($id_registrasi);
+        /** @var DokumenRegistrasi $dokumen */
+        $dokumen = DokumenRegistrasi::findOrFail($id_registrasi);
 
         // Guard: prevent double-processing — only allow changes when status is still pending
         if ($dokumen->status_registrasi !== StatusRegistrasi::Pending->value) {
@@ -400,7 +436,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     })->name('admin.persyaratan.update');
 
     Route::get('/konfirmasi-pembayaran', function () {
-        $teams = \App\Models\Tim::with(['members', 'pembayaran'])->get();
+        $teams = Tim::with(['members', 'pembayaran'])->get();
 
         return Inertia::render('admin/KonfirmasiPembayaran', [
             'teams' => $teams,
@@ -418,7 +454,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             'catatan.max' => 'Catatan penolakan maksimal 1000 karakter.',
         ]);
 
-        $pembayaran = \App\Models\Pembayaran::findOrFail($id_pembayaran);
+        /** @var Pembayaran $pembayaran */
+        $pembayaran = Pembayaran::findOrFail($id_pembayaran);
 
         // Guard: prevent double-processing — only allow changes when status is still pending
         if ($pembayaran->status_pembayaran !== StatusPembayaran::Pending->value) {
@@ -436,6 +473,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             // If approved, update team status_seleksi to 'penyisihan'
             // but only if registration document is also approved
             if ($request->status === StatusPembayaran::Berhasil->value) {
+                /** @var Tim $tim */
                 $tim = $pembayaran->tim;
                 $dokumenApproved = $tim->dokumen_registrasi
                     && $tim->dokumen_registrasi->status_registrasi === StatusRegistrasi::Berhasil->value;
@@ -452,7 +490,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     })->name('admin.pembayaran.update');
 
     Route::get('/tim-terdaftar', function () {
-        $teams = \App\Models\Tim::with(['members', 'dokumen_registrasi', 'pembayaran'])
+        $teams = Tim::with(['members', 'dokumen_registrasi', 'pembayaran'])
             ->whereIn('status_seleksi', StatusSeleksi::qualified())
             ->get();
 
@@ -462,7 +500,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     })->name('admin.tim-terdaftar');
 
     Route::get('/submission', function () {
-        $teams = \App\Models\Tim::with(['members', 'submission'])
+        $teams = Tim::with(['members', 'submission'])
             ->whereHas('submission')
             ->get();
 
@@ -472,8 +510,48 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     })->name('admin.submission');
 
     Route::get('/atur-tanggal', function () {
-        return Inertia::render('admin/AturTanggal');
+        $timelines = Timeline::orderByRaw(
+            "FIELD(tahap, 'pendaftaran_b1', 'pendaftaran_b2', 'penyisihan', 'final', 'awarding')"
+        )->get();
+
+        return Inertia::render('admin/AturTanggal', [
+            'timelines' => $timelines,
+        ]);
     })->name('admin.atur-tanggal');
+
+    Route::post('/atur-tanggal', function (Request $request) {
+        /** @var User $user */
+        $user = auth()->user();
+        $tahaps = ['pendaftaran_b1', 'pendaftaran_b2', 'penyisihan', 'final', 'awarding'];
+
+        $rules = [];
+        foreach ($tahaps as $tahap) {
+            $rules["tanggal_mulai_{$tahap}"] = 'required|date';
+            $rules["tanggal_selesai_{$tahap}"] = "required|date|after:tanggal_mulai_{$tahap}";
+        }
+
+        $messages = [];
+        foreach ($tahaps as $tahap) {
+            $messages["tanggal_selesai_{$tahap}.after"] = "Tanggal selesai harus setelah tanggal mulai untuk tahap {$tahap}.";
+        }
+
+        $request->validate($rules, $messages);
+
+        DB::transaction(function () use ($request, $user, $tahaps) {
+            foreach ($tahaps as $tahap) {
+                Timeline::updateOrCreate(
+                    ['tahap' => $tahap],
+                    [
+                        'tanggal_mulai' => $request->input("tanggal_mulai_{$tahap}"),
+                        'tanggal_selesai' => $request->input("tanggal_selesai_{$tahap}"),
+                        'updated_by' => $user->id_user,
+                    ]
+                );
+            }
+        });
+
+        return redirect()->back()->with('success', 'Timeline berhasil diperbarui!');
+    })->name('admin.atur-tanggal.update');
 
     Route::get('/kelola-sponsor', function () {
         return Inertia::render('admin/KelolaSponsor');

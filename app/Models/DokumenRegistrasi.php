@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DokumenRegistrasi extends Model
 {
+    /** @use HasFactory<Factory<DokumenRegistrasi>> */
     use HasFactory;
 
     /**
@@ -35,7 +37,7 @@ class DokumenRegistrasi extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'id_tim',
@@ -59,6 +61,8 @@ class DokumenRegistrasi extends Model
 
     /**
      * Get the team that owns the registration document.
+     *
+     * @return BelongsTo<Tim, $this>
      */
     public function tim(): BelongsTo
     {

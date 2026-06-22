@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\PesertaMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -24,8 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'admin' => \App\Http\Middleware\AdminMiddleware::class,
-            'peserta' => \App\Http\Middleware\PesertaMiddleware::class,
+            'admin' => AdminMiddleware::class,
+            'peserta' => PesertaMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

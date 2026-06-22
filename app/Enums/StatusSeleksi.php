@@ -11,6 +11,8 @@ enum StatusSeleksi: string
 
     /**
      * Statuses that represent an "active/qualified" team (for admin listing).
+     *
+     * @return list<string>
      */
     public static function qualified(): array
     {

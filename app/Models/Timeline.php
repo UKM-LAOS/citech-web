@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Timeline extends Model
 {
+    /** @use HasFactory<Factory<Timeline>> */
     use HasFactory;
 
     /**
@@ -27,7 +30,7 @@ class Timeline extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'tanggal_mulai',
@@ -51,8 +54,11 @@ class Timeline extends Model
 
     /**
      * Scope: only timelines that have not yet ended.
+     *
+     * @param  Builder<Timeline>  $query
+     * @return Builder<Timeline>
      */
-    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('tanggal_selesai', '>', now())
             ->orderBy('tanggal_selesai', 'asc');
@@ -60,8 +66,11 @@ class Timeline extends Model
 
     /**
      * Scope: filter by tahap (stage) name.
+     *
+     * @param  Builder<Timeline>  $query
+     * @return Builder<Timeline>
      */
-    public function scopeTahap(\Illuminate\Database\Eloquent\Builder $query, string $tahap): \Illuminate\Database\Eloquent\Builder
+    public function scopeTahap(Builder $query, string $tahap): Builder
     {
         return $query->where('tahap', $tahap);
     }
@@ -95,6 +104,8 @@ class Timeline extends Model
 
     /**
      * Get the user who last updated this timeline event.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function updater(): BelongsTo
     {

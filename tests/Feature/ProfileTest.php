@@ -2,8 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\DokumenRegistrasi;
+use App\Models\Pembayaran;
+use App\Models\Tim;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -95,5 +100,96 @@ class ProfileTest extends TestCase
             ->assertRedirect('/settings/profile');
 
         $this->assertNotNull($user->fresh());
+    }
+
+    public function test_delete_account_cleans_up_team_files(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+        $tim = Tim::create([
+            'id_user' => $user->id_user,
+            'nama_tim' => 'Test Team',
+            'universitas' => 'Test University',
+            'status_seleksi' => 'belum_seleksi',
+            'batch' => 1,
+        ]);
+
+        $docFile = UploadedFile::fake()->create('doc.pdf', 512, 'application/pdf');
+        $docPath = $docFile->store('dokumen_registrasi', 'public');
+
+        $paymentFile = UploadedFile::fake()->create('payment.png', 512, 'image/png');
+        $paymentPath = $paymentFile->store('bukti_pembayaran', 'public');
+
+        DokumenRegistrasi::create([
+            'id_tim' => $tim->id_tim,
+            'link_file_registrasi' => $docPath,
+            'status_registrasi' => 'pending',
+            'uploaded_at' => now(),
+        ]);
+
+        Pembayaran::create([
+            'id_tim' => $tim->id_tim,
+            'bukti_pembayaran' => $paymentPath,
+            'status_pembayaran' => 'pending',
+            'uploaded_at' => now(),
+        ]);
+
+        Storage::disk('public')->assertExists($docPath);
+        Storage::disk('public')->assertExists($paymentPath);
+
+        $this->actingAs($user)
+            ->delete('/settings/profile', [
+                'password' => 'password',
+            ])
+            ->assertRedirect('/');
+
+        Storage::disk('public')->assertMissing($docPath);
+        Storage::disk('public')->assertMissing($paymentPath);
+    }
+
+    public function test_delete_account_removes_team_data(): void
+    {
+        $user = User::factory()->create();
+        $tim = Tim::create([
+            'id_user' => $user->id_user,
+            'nama_tim' => 'Test Team',
+            'universitas' => 'Test University',
+            'status_seleksi' => 'belum_seleksi',
+            'batch' => 1,
+        ]);
+
+        $tim->members()->create([
+            'nama_peserta' => $user->name,
+            'nim_peserta' => '111111',
+            'jurusan' => 'Computer Science',
+            'role' => 'ketua',
+        ]);
+
+        DokumenRegistrasi::create([
+            'id_tim' => $tim->id_tim,
+            'link_file_registrasi' => 'test.pdf',
+            'status_registrasi' => 'pending',
+            'uploaded_at' => now(),
+        ]);
+
+        Pembayaran::create([
+            'id_tim' => $tim->id_tim,
+            'bukti_pembayaran' => 'test.png',
+            'status_pembayaran' => 'pending',
+            'uploaded_at' => now(),
+        ]);
+
+        $this->actingAs($user)
+            ->delete('/settings/profile', [
+                'password' => 'password',
+            ])
+            ->assertRedirect('/');
+
+        $this->assertDatabaseMissing('users', ['id_user' => $user->id_user]);
+        $this->assertDatabaseMissing('tim', ['id_tim' => $tim->id_tim]);
+        $this->assertDatabaseMissing('member_tim', ['id_tim' => $tim->id_tim]);
+        $this->assertDatabaseMissing('dokumen_registrasi', ['id_tim' => $tim->id_tim]);
+        $this->assertDatabaseMissing('pembayaran', ['id_tim' => $tim->id_tim]);
     }
 }

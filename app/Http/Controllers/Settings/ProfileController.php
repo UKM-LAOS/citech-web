@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileDeleteRequest;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Models\Tim;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -51,16 +53,17 @@ class ProfileController extends Controller
         $user = $request->user();
 
         if ($user->tim) {
+            /** @var Tim $tim */
             $tim = $user->tim->loadMissing('dokumen_registrasi', 'pembayaran');
 
             if ($tim->dokumen_registrasi?->link_file_registrasi) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(
+                Storage::disk('public')->delete(
                     $tim->dokumen_registrasi->link_file_registrasi
                 );
             }
 
             if ($tim->pembayaran?->bukti_pembayaran) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(
+                Storage::disk('public')->delete(
                     $tim->pembayaran->bukti_pembayaran
                 );
             }
