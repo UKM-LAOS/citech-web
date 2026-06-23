@@ -3,10 +3,12 @@
 use App\Enums\StatusPembayaran;
 use App\Enums\StatusRegistrasi;
 use App\Enums\StatusSeleksi;
+use App\Http\Controllers\Admin\SponsorController;
 use App\Models\DokumenRegistrasi;
 use App\Models\DokumenSubmission;
 use App\Models\MemberTim;
 use App\Models\Pembayaran;
+use App\Models\Sponsor;
 use App\Models\Tim;
 use App\Models\Timeline;
 use App\Models\User;
@@ -27,6 +29,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'activeTimeline' => Timeline::currentActive(),
         'allTimelines' => Timeline::orderBy('tanggal_mulai', 'asc')->get(),
+        'sponsors' => Sponsor::where('is_active', true)->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get(),
     ]);
 })->name('home');
 
@@ -553,9 +556,10 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         return redirect()->back()->with('success', 'Timeline berhasil diperbarui!');
     })->name('admin.atur-tanggal.update');
 
-    Route::get('/kelola-sponsor', function () {
-        return Inertia::render('admin/KelolaSponsor');
-    })->name('admin.kelola-sponsor');
+    Route::get('/kelola-sponsor', [SponsorController::class, 'index'])->name('admin.kelola-sponsor');
+    Route::post('/kelola-sponsor', [SponsorController::class, 'store'])->name('admin.kelola-sponsor.store');
+    Route::post('/kelola-sponsor/{id}', [SponsorController::class, 'update'])->name('admin.kelola-sponsor.update');
+    Route::delete('/kelola-sponsor/{id}', [SponsorController::class, 'destroy'])->name('admin.kelola-sponsor.destroy');
 });
 
 require __DIR__.'/auth.php';
