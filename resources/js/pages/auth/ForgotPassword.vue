@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Mail, ArrowRight } from '@lucide/vue';
-import InputError from '@/Components/InputError.vue';
+import InputError from '@/components/InputError.vue';
 
 defineProps({
     status: {

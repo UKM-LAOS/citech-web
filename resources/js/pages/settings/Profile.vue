@@ -9,35 +9,32 @@ import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Layout from '@/layouts/settings/Layout.vue';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 
 defineOptions({
-    layout: {
-        breadcrumbs: [
-            {
-                title: 'Profile settings',
-                href: edit(),
-            },
-        ],
-    },
+    layout: Layout,
 });
 
-const page = usePage();
+const page = usePage<any>();
 const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
-    <Head title="Profile settings" />
+    <Head title="Pengaturan Profil - CITECH 2026" />
 
-    <h1 class="sr-only">Profile settings</h1>
+    <h1 class="sr-only">Pengaturan Profil</h1>
 
     <div class="flex flex-col space-y-6">
-        <Heading
-            variant="small"
-            title="Profile"
-            description="Update your name and email address"
-        />
+        <div class="border-b border-slate-100 pb-4 mb-2">
+            <h3 class="text-lg font-extrabold text-slate-800">
+                Informasi Profil
+            </h3>
+            <p class="text-xs font-bold text-slate-400 mt-1">
+                Perbarui nama lengkap dan alamat email akun Anda.
+            </p>
+        </div>
 
         <Form
             v-bind="ProfileController.update.form()"
@@ -45,61 +42,68 @@ const user = computed(() => page.props.auth.user);
             v-slot="{ errors, processing }"
         >
             <div class="grid gap-2">
-                <Label for="name">Name</Label>
+                <Label for="name" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Nama Lengkap</Label>
                 <Input
                     id="name"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
                     name="name"
                     :default-value="user.name"
                     required
                     autocomplete="name"
-                    placeholder="Full name"
+                    placeholder="Masukkan nama lengkap Anda"
                 />
                 <InputError class="mt-2" :message="errors.name" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Alamat Email</Label>
                 <Input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11! bg-slate-50! text-slate-500! cursor-not-allowed! select-none!"
                     name="email"
                     :default-value="user.email"
                     required
                     autocomplete="username"
-                    placeholder="Email address"
+                    placeholder="Masukkan alamat email Anda"
+                    readonly
                 />
                 <InputError class="mt-2" :message="errors.email" />
             </div>
 
             <div v-if="page.props.mustVerifyEmail && !user.email_verified_at">
-                <p class="text-muted-foreground -mt-4 text-sm">
-                    Your email address is unverified.
+                <p class="text-slate-500 -mt-2 text-xs font-bold">
+                    Alamat email Anda belum terverifikasi.
                     <Link
                         :href="send()"
                         as="button"
-                        class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current!"
+                        class="text-blue-600 underline decoration-blue-300 underline-offset-4 transition-colors duration-300 ease-out hover:text-blue-800"
                     >
-                        Click here to re-send the verification email.
+                        Klik di sini untuk mengirim ulang email verifikasi.
                     </Link>
                 </p>
 
                 <div
                     v-if="page.props.status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
+                    class="mt-2 text-xs font-bold text-green-600"
                 >
-                    A new verification link has been sent to your email address.
+                    Tautan verifikasi baru telah dikirimkan ke alamat email Anda.
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <Button :disabled="processing" data-test="update-profile-button"
-                    >Save</Button
+            <div class="flex items-center gap-4 pt-2">
+                <Button
+                    :disabled="processing"
+                    class="flex items-center space-x-2 rounded-xl bg-[#1e4d8c] hover:bg-[#153a6b] px-8! py-3! h-11! text-xs font-black tracking-wider text-white shadow-md transition"
+                    data-test="update-profile-button"
                 >
+                    Simpan Perubahan
+                </Button>
             </div>
         </Form>
     </div>
 
-    <DeleteUser />
+    <div class="border-t border-slate-100 pt-8 mt-8">
+        <DeleteUser />
+    </div>
 </template>

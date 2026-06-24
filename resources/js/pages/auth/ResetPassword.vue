@@ -2,7 +2,7 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from '@lucide/vue';
 import { ref, computed } from 'vue';
-import InputError from '@/Components/InputError.vue';
+import InputError from '@/components/InputError.vue';
 
 const props = defineProps({
     email: {

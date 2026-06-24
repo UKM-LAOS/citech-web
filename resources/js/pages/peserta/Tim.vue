@@ -21,16 +21,9 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
+    DialogDescription,
+    DialogFooter,
 } from '@/components/ui/dialog';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -137,7 +130,7 @@ const submitPayment = () => {
         onSuccess: () => {
             isPaymentUploadModalOpen.value = false;
             // Open WA redirect automatically
-            const waNumber = '6282264890113'; // WhatsApp Panitia
+            const waNumber = '6282131492054'; // WhatsApp Panitia
             const teamName = props.userTeam?.nama_tim || '';
             const university = props.userTeam?.universitas || '';
             const waMessage = `Halo Panitia CITECH 2026, saya perwakilan dari tim ${teamName} dari ${university} ingin mengonfirmasi bahwa kami telah melakukan pembayaran pendaftaran dan mengunggah bukti pembayaran di website. Mohon untuk diverifikasi. Terima kasih!`;
@@ -922,7 +915,7 @@ const clearAnggota2 = () => {
                             <div
                                 v-else-if="
                                     userTeam.dokumen_registrasi
-                                        .status_registrasi === 'berhasil'
+                                            .status_registrasi === 'berhasil'
                                 "
                                 class="space-y-4 pt-2 text-center"
                             >
@@ -1200,7 +1193,7 @@ const clearAnggota2 = () => {
                                 informasi terkini.
                             </p>
                             <a
-                                href="#"
+                                href="https://chat.whatsapp.com/JG6rm9yETuW3jI0HI4GvzY"
                                 class="block w-full rounded-xl bg-[#3769a6] py-3 text-center text-xs font-black text-white shadow-sm transition hover:scale-[1.01] hover:bg-[#2b5487]"
                             >
                                 Gabung Grup Peserta
@@ -1455,7 +1448,7 @@ const clearAnggota2 = () => {
                             type="button"
                             variant="outline"
                             @click="closeUploadModal"
-                            class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+                            class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                         >
                             Batal
                         </Button>
@@ -1465,7 +1458,7 @@ const clearAnggota2 = () => {
                                 uploadForm.processing ||
                                 !uploadForm.file_dokumen
                             "
-                            class="flex items-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed disabled:opacity-50"
+                            class="cursor-pointer! flex items-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50"
                         >
                             <UploadCloud class="h-3.5 w-3.5" />
                             <span>{{
@@ -1480,48 +1473,46 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Confirm Cancel Modal -->
-        <AlertDialog v-model:open="isConfirmCancelModalOpen" @update:open="(val) => !val && closeConfirmCancelModal()">
-            <AlertDialogContent class="rounded-3xl max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
+        <Dialog v-model:open="isConfirmCancelModalOpen" @update:open="(val) => !val && closeConfirmCancelModal()">
+            <DialogContent class="rounded-3xl max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]" :showCloseButton="false">
                 <div class="flex items-start space-x-4">
                     <div
                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"
                     >
                         <AlertCircle class="h-5 w-5" />
                     </div>
-                    <div class="min-w-0 space-y-1">
-                        <AlertDialogTitle class="text-base font-black text-slate-900">
+                    <div class="min-w-0 space-y-1 text-left">
+                        <DialogTitle class="text-base font-black text-slate-900">
                             Batalkan Unggahan Berkas?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
+                        </DialogTitle>
+                        <DialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
                             Apakah Anda yakin ingin membatalkan
                             pengiriman dokumen persyaratan ini? Tindakan
                             ini akan menghapus berkas PDF yang telah
                             diunggah secara permanen.
-                        </AlertDialogDescription>
+                        </DialogDescription>
                     </div>
                 </div>
 
-                <AlertDialogFooter class="flex items-center justify-end space-x-3 mt-4">
-                    <AlertDialogCancel
+                <DialogFooter class="flex items-center justify-end space-x-3 mt-4">
+                    <button
+                        type="button"
                         @click="closeConfirmCancelModal"
-                        as-child
+                        class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"
                     >
-                        <Button variant="outline" class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50">
-                            Tidak, Kembali
-                        </Button>
-                    </AlertDialogCancel>
-                    <AlertDialogAction
+                        Tidak, Kembali
+                    </button>
+                    <button
+                        type="button"
                         @click="confirmCancelDocument"
-                        as-child
+                        class="cursor-pointer! flex items-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700"
                     >
-                        <Button class="flex items-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700">
-                            <Trash2 class="h-3.5 w-3.5" />
-                            <span>Ya, Batalkan</span>
-                        </Button>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                        <Trash2 class="h-3.5 w-3.5" />
+                        <span>Ya, Batalkan</span>
+                    </button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
         <!-- Payment Upload Modal Dialog -->
         <Dialog v-model:open="isPaymentUploadModalOpen" @update:open="(val) => !val && closePaymentUploadModal()">
@@ -1619,7 +1610,7 @@ const clearAnggota2 = () => {
                             type="button"
                             variant="outline"
                             @click="closePaymentUploadModal"
-                            class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+                            class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                         >
                             Batal
                         </Button>
@@ -1629,7 +1620,7 @@ const clearAnggota2 = () => {
                                 paymentForm.processing ||
                                 !paymentForm.bukti_pembayaran
                             "
-                            class="flex items-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed disabled:opacity-50"
+                            class="cursor-pointer! flex items-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50"
                         >
                             <UploadCloud class="h-3.5 w-3.5" />
                             <span>{{
@@ -1644,48 +1635,46 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Confirm Cancel Payment Modal -->
-        <AlertDialog v-model:open="isConfirmCancelPaymentModalOpen" @update:open="(val) => !val && closeConfirmCancelPaymentModal()">
-            <AlertDialogContent class="rounded-3xl max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
+        <Dialog v-model:open="isConfirmCancelPaymentModalOpen" @update:open="(val) => !val && closeConfirmCancelPaymentModal()">
+            <DialogContent class="rounded-3xl max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]" :showCloseButton="false">
                 <div class="flex items-start space-x-4">
                     <div
                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"
                     >
                         <AlertCircle class="h-5 w-5" />
                     </div>
-                    <div class="min-w-0 space-y-1">
-                        <AlertDialogTitle class="text-base font-black text-slate-900">
+                    <div class="min-w-0 space-y-1 text-left">
+                        <DialogTitle class="text-base font-black text-slate-900">
                             Batalkan Unggahan Pembayaran?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
+                        </DialogTitle>
+                        <DialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
                             Apakah Anda yakin ingin membatalkan
                             pengiriman bukti pembayaran ini? Tindakan
                             ini akan menghapus bukti transaksi yang
                             telah diunggah secara permanen.
-                        </AlertDialogDescription>
+                        </DialogDescription>
                     </div>
                 </div>
 
-                <AlertDialogFooter class="flex items-center justify-end space-x-3 mt-4">
-                    <AlertDialogCancel
+                <DialogFooter class="flex items-center justify-end space-x-3 mt-4">
+                    <button
+                        type="button"
                         @click="closeConfirmCancelPaymentModal"
-                        as-child
+                        class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"
                     >
-                        <Button variant="outline" class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50">
-                            Tidak, Kembali
-                        </Button>
-                    </AlertDialogCancel>
-                    <AlertDialogAction
+                        Tidak, Kembali
+                    </button>
+                    <button
+                        type="button"
                         @click="confirmCancelPayment"
-                        as-child
+                        class="cursor-pointer! flex items-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700"
                     >
-                        <Button class="flex items-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700">
-                            <Trash2 class="h-3.5 w-3.5" />
-                            <span>Ya, Batalkan</span>
-                        </Button>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                        <Trash2 class="h-3.5 w-3.5" />
+                        <span>Ya, Batalkan</span>
+                    </button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
         <!-- Proposal Submission Link drive Modal Dialog -->
         <Dialog v-model:open="isSubmissionModalOpen" @update:open="(val) => !val && closeSubmissionModal()">
@@ -1779,13 +1768,13 @@ const clearAnggota2 = () => {
                             type="button"
                             variant="outline"
                             @click="closeSubmissionModal"
-                            class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+                            class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                         >
                             Batal
                         </Button>
                         <Button
                             type="submit"
-                            class="flex items-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d]"
+                            class="cursor-pointer! flex items-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d]"
                         >
                             <UploadCloud class="h-3.5 w-3.5" />
                             <span>Kumpulkan Link</span>
@@ -1796,19 +1785,19 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Double Confirm Submit Proposal Modal -->
-        <AlertDialog v-model:open="isConfirmSubmissionModalOpen" @update:open="(val) => !val && closeConfirmSubmissionModal()">
-            <AlertDialogContent class="rounded-3xl max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
+        <Dialog v-model:open="isConfirmSubmissionModalOpen" @update:open="(val) => !val && closeConfirmSubmissionModal()">
+            <DialogContent class="rounded-3xl max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]" :showCloseButton="false">
                 <div class="flex items-start space-x-4">
                     <div
                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600"
                     >
                         <AlertCircle class="h-5 w-5" />
                     </div>
-                    <div class="min-w-0 space-y-1">
-                        <AlertDialogTitle class="text-base font-black text-slate-900">
+                    <div class="min-w-0 space-y-1 text-left">
+                        <DialogTitle class="text-base font-black text-slate-900">
                             Apakah Anda Yakin Mengumpulkan?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
+                        </DialogTitle>
+                        <DialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
                             Pengumpulan proposal dan surat orisinalitas
                             hanya dapat dilakukan
                             <strong
@@ -1824,35 +1813,33 @@ const clearAnggota2 = () => {
                             setelah dikirim. Pastikan link Google Drive
                             Anda sudah benar dan dapat diakses secara
                             publik.
-                        </AlertDialogDescription>
+                        </DialogDescription>
                     </div>
                 </div>
 
-                <AlertDialogFooter class="flex items-center justify-end space-x-3 mt-4">
-                    <AlertDialogCancel
+                <DialogFooter class="flex items-center justify-end space-x-3 mt-4">
+                    <button
+                        type="button"
                         @click="closeConfirmSubmissionModal"
-                        as-child
+                        class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"
                     >
-                        <Button variant="outline" class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50">
-                            Periksa Kembali
-                        </Button>
-                    </AlertDialogCancel>
-                    <AlertDialogAction
+                        Periksa Kembali
+                    </button>
+                    <button
+                        type="button"
                         @click="submitProposal"
                         :disabled="submissionForm.processing"
-                        as-child
+                        class="cursor-pointer! rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50"
                     >
-                        <Button class="rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white hover:bg-[#15233d]">
-                            {{
-                                submissionForm.processing
-                                    ? 'Mengirim...'
-                                    : 'Ya, Kumpulkan'
-                            }}
-                        </Button>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                        {{
+                            submissionForm.processing
+                                ? 'Mengirim...'
+                                : 'Ya, Kumpulkan'
+                        }}
+                    </button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </CitechDashboardLayout>
 </template>
 

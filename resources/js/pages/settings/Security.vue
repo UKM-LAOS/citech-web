@@ -10,6 +10,7 @@ import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import Layout from '@/layouts/settings/Layout.vue';
 import { edit } from '@/routes/security';
 
 type Props = {
@@ -20,28 +21,24 @@ type Props = {
 const props = defineProps<Props>();
 
 defineOptions({
-    layout: {
-        breadcrumbs: [
-            {
-                title: 'Security settings',
-                href: edit(),
-            },
-        ],
-    },
+    layout: Layout,
 });
 </script>
 
 <template>
-    <Head title="Security settings" />
+    <Head title="Keamanan Akun - CITECH 2026" />
 
-    <h1 class="sr-only">Security settings</h1>
+    <h1 class="sr-only">Keamanan Akun</h1>
 
     <div class="space-y-6">
-        <Heading
-            variant="small"
-            title="Update password"
-            description="Ensure your account is using a long, random password to stay secure"
-        />
+        <div class="border-b border-slate-100 pb-4 mb-2">
+            <h3 class="text-lg font-extrabold text-slate-800">
+                Ubah Password
+            </h3>
+            <p class="text-xs font-bold text-slate-400 mt-1">
+                Pastikan akun Anda menggunakan kata sandi yang panjang dan acak demi menjaga keamanan akun.
+            </p>
+        </div>
 
         <Form
             v-bind="SecurityController.update.form()"
@@ -58,62 +55,53 @@ defineOptions({
             v-slot="{ errors, processing }"
         >
             <div class="grid gap-2">
-                <Label for="current_password">Current password</Label>
+                <Label for="current_password" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Kata Sandi Saat Ini</Label>
                 <PasswordInput
                     id="current_password"
                     name="current_password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
                     autocomplete="current-password"
-                    placeholder="Current password"
+                    placeholder="Masukkan kata sandi saat ini"
                 />
                 <InputError :message="errors.current_password" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="password">New password</Label>
+                <Label for="password" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Kata Sandi Baru</Label>
                 <PasswordInput
                     id="password"
                     name="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
                     autocomplete="new-password"
-                    placeholder="New password"
+                    placeholder="Masukkan kata sandi baru"
                     :passwordrules="props.passwordRules"
                 />
                 <InputError :message="errors.password" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="password_confirmation">Confirm password</Label>
+                <Label for="password_confirmation" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Konfirmasi Kata Sandi Baru</Label>
                 <PasswordInput
                     id="password_confirmation"
                     name="password_confirmation"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
                     autocomplete="new-password"
-                    placeholder="Confirm password"
+                    placeholder="Konfirmasi kata sandi baru"
                     :passwordrules="props.passwordRules"
                 />
                 <InputError :message="errors.password_confirmation" />
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 pt-2">
                 <Button
                     :disabled="processing"
+                    class="flex items-center space-x-2 rounded-xl bg-[#1e4d8c] hover:bg-[#153a6b] px-8! py-3! h-11! text-xs font-black tracking-wider text-white shadow-md transition"
                     data-test="update-password-button"
                 >
-                    Save
+                    Ubah Password
                 </Button>
             </div>
         </Form>
     </div>
 
-    <ManageTwoFactor
-        :canManageTwoFactor="canManageTwoFactor"
-        :requiresConfirmation="requiresConfirmation"
-        :twoFactorEnabled="twoFactorEnabled"
-    />
-
-    <ManagePasskeys
-        :canManagePasskeys="canManagePasskeys"
-        :passkeys="passkeys"
-    />
 </template>

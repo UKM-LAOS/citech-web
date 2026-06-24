@@ -2,7 +2,7 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from '@lucide/vue';
 import { ref } from 'vue';
-import InputError from '@/Components/InputError.vue';
+import InputError from '@/components/InputError.vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';

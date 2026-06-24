@@ -128,7 +128,7 @@ const logout = () => {
             >
                 <div
                     v-if="isSidebarExpanded"
-                    class="animate-fade-in flex items-center space-x-3"
+                    class="flex items-center space-x-3"
                 >
                     <img
                         src="/assets/logo-citech.png"
@@ -154,7 +154,7 @@ const logout = () => {
                 </div>
                 <div
                     v-else
-                    class="animate-fade-in mx-auto flex items-center justify-center"
+                    class=" mx-auto flex items-center justify-center"
                 >
                     <img
                         src="/assets/logo-citech.png"

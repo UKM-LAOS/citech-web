@@ -78,14 +78,6 @@ import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
                         <Settings class="h-4 w-4" />
                         <span>Edit Profil</span>
                     </Link>
-
-                    <Link
-                        :href="route('security.edit')"
-                        class="inline-flex items-center space-x-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-xs font-black text-slate-700 shadow-sm transition hover:bg-slate-50"
-                    >
-                        <Lock class="h-4 w-4" />
-                        <span>Ubah Password & Keamanan</span>
-                    </Link>
                 </div>
             </div>
         </div>
