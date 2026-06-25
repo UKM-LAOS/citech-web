@@ -554,14 +554,10 @@ return '';
 
             <!-- Main Title with premium scaling/weight and gradient backdrop aura -->
             <div
-                class="animate-hero-title relative z-10 mx-auto mb-6 max-w-4xl"
+                class="animate-hero-title relative z-10 mx-auto mb-6 max-w-5xl"
             >
-                <!-- Soft Glow Backdrop behind the title -->
-                <div
-                    class="absolute -inset-4 -z-10 animate-float-slow rounded-full bg-gradient-to-r from-blue-300/20 via-purple-300/20 to-amber-300/20 blur-[60px]"
-                ></div>
                 <h1
-                    class="text-shadow-blue cursor-default text-4xl leading-[1.08] font-extrabold tracking-tight text-[#0c2448] sm:text-7xl"
+                    class="text-shadow-blue cursor-default text-5xl leading-[1.08] font-extrabold tracking-tight text-[#0c2448] sm:text-8xl"
                 >
                     Carnival Technology <br />
                     <span
