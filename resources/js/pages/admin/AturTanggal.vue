@@ -161,13 +161,12 @@ const cancelSave = () => {
                         class="inline-flex items-center gap-2 rounded-xl bg-[#1e4d8c] px-6 py-3 text-xs font-extrabold tracking-wider text-white uppercase shadow-md transition hover:bg-[#153a6b] hover:shadow-lg disabled:opacity-50"
                     >
                         <Save class="h-4 w-4" />
-                        Simpan Timeline
+                        Simpan Timeline 
                     </button>
                 </div>
             </form>
         </div>
 
-        // Confirmation Dialog
         <div v-if="showConfirm" class="fixed inset-0 z-50 overflow-y-auto">
             <div
                 class="flex min-h-full items-center justify-center p-4 text-center"
