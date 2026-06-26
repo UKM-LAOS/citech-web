@@ -16,6 +16,7 @@ import {
 } from '@lucide/vue';
 import { ref, computed, onMounted } from 'vue';
 import { Toaster } from '@/components/ui/sonner';
+import WhatsAppFab from '@/components/WhatsAppFab.vue';
 
 const props = defineProps({
     activeMenu: {
@@ -282,6 +283,7 @@ const logout = () => {
             </main>
         </div>
         <Toaster />
+        <WhatsAppFab v-if="role === 'peserta'" />
     </div>
 </template>
 

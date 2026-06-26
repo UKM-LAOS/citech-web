@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import WhatsAppFab from '@/components/WhatsAppFab.vue';
 import {
     Code,
     Users,
@@ -1448,6 +1449,7 @@ const formattedTimelineItems = computed(() => {
                 </div>
             </div>
         </footer>
+        <WhatsAppFab />
     </div>
 </template>
 
