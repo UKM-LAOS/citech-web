@@ -67,25 +67,25 @@
     --card-foreground: #0f172a;
     --popover: #ffffff;
     --popover-foreground: #0f172a;
-    
+
     /* Primary mapped to CITECH Blue */
     --primary: #1e4d8c;
     --primary-foreground: #ffffff;
-    
+
     /* Secondary mapped to Light Slate */
     --secondary: #f1f5f9; /* slate-100 */
     --secondary-foreground: #0c2448;
-    
+
     --muted: #f1f5f9;
     --muted-foreground: #64748b; /* slate-500 */
-    
+
     /* Accent mapped to CITECH Gold */
     --accent: #fef08a; /* yellow-200 */
     --accent-foreground: #854d0e; /* yellow-800 */
-    
+
     --destructive: #ef4444; /* red-500 */
     --destructive-foreground: #ffffff;
-    
+
     --border: #e2e8f0; /* slate-200 */
     --input: #e2e8f0;
     --ring: #1e4d8c;

@@ -16,6 +16,7 @@ import {
 } from '@lucide/vue';
 import { ref, computed } from 'vue';
 import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -24,7 +25,6 @@ import {
     DialogDescription,
     DialogFooter,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -240,17 +240,17 @@ const form = useForm({
 // Sort members to put 'ketua' first
 const sortedMembers = computed(() => {
     if (!props.teamMembers) {
-return [];
-}
+        return [];
+    }
 
     return [...props.teamMembers].sort((a, b) => {
         if (a.role === 'ketua') {
-return -1;
-}
+            return -1;
+        }
 
         if (b.role === 'ketua') {
-return 1;
-}
+            return 1;
+        }
 
         return a.id_member - b.id_member;
     });
@@ -915,7 +915,7 @@ const clearAnggota2 = () => {
                             <div
                                 v-else-if="
                                     userTeam.dokumen_registrasi
-                                            .status_registrasi === 'berhasil'
+                                        .status_registrasi === 'berhasil'
                                 "
                                 class="space-y-4 pt-2 text-center"
                             >
@@ -1320,12 +1320,21 @@ const clearAnggota2 = () => {
         </div>
 
         <!-- Upload Modal Dialog -->
-        <Dialog v-model:open="isUploadModalOpen" @update:open="(val) => !val && closeUploadModal()">
-            <DialogContent class="rounded-3xl sm:max-w-lg p-0 overflow-hidden border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+        <Dialog
+            v-model:open="isUploadModalOpen"
+            @update:open="(val) => !val && closeUploadModal()"
+        >
+            <DialogContent
+                class="overflow-hidden rounded-3xl border-none p-0 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] sm:max-w-lg"
+            >
                 <!-- Header -->
-                <DialogHeader class="border-b border-slate-100 p-4 sm:p-6 flex flex-row items-center justify-between space-y-0">
+                <DialogHeader
+                    class="flex flex-row items-center justify-between space-y-0 border-b border-slate-100 p-4 sm:p-6"
+                >
                     <div class="space-y-1 text-left">
-                        <DialogTitle class="text-lg leading-tight font-black text-slate-900">
+                        <DialogTitle
+                            class="text-lg leading-tight font-black text-slate-900"
+                        >
                             Unggah Berkas Persyaratan
                         </DialogTitle>
                         <p
@@ -1339,7 +1348,7 @@ const clearAnggota2 = () => {
                 <!-- Body / Upload Form -->
                 <form
                     @submit.prevent="submitDocument"
-                    class="space-y-6 p-4 sm:p-6 text-left"
+                    class="space-y-6 p-4 text-left sm:p-6"
                 >
                     <!-- Info Box -->
                     <div
@@ -1361,15 +1370,14 @@ const clearAnggota2 = () => {
                                 </li>
                                 <li>Screenshot Twibbon di media sosial</li>
                                 <li>
-                                    Screenshot Bukti Follow akun
-                                    penyelenggara
+                                    Screenshot Bukti Follow akun penyelenggara
                                 </li>
                             </ul>
                             <p
                                 class="mt-1.5 text-[10px] font-extrabold text-[#1e4d8c]"
                             >
-                                * Ketiga berkas di atas wajib digabung
-                                menjadi 1 file PDF.
+                                * Ketiga berkas di atas wajib digabung menjadi 1
+                                file PDF.
                             </p>
                         </div>
                     </div>
@@ -1394,9 +1402,7 @@ const clearAnggota2 = () => {
                         </div>
 
                         <div class="space-y-1 text-center">
-                            <p
-                                class="text-xs font-extrabold text-slate-800"
-                            >
+                            <p class="text-xs font-extrabold text-slate-800">
                                 {{
                                     selectedFileName
                                         ? 'Ganti File PDF terpilih'
@@ -1442,13 +1448,13 @@ const clearAnggota2 = () => {
 
                     <!-- Actions -->
                     <div
-                        class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-3 sm:gap-0 pt-2"
+                        class="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end sm:gap-0 sm:space-x-3"
                     >
                         <Button
                             type="button"
                             variant="outline"
                             @click="closeUploadModal"
-                            class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 w-full sm:w-auto"
+                            class="w-full cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 sm:w-auto"
                         >
                             Batal
                         </Button>
@@ -1458,7 +1464,7 @@ const clearAnggota2 = () => {
                                 uploadForm.processing ||
                                 !uploadForm.file_dokumen
                             "
-                            class="cursor-pointer! flex items-center justify-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50 w-full sm:w-auto"
+                            class="flex w-full cursor-pointer! items-center justify-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50 sm:w-auto"
                         >
                             <UploadCloud class="h-3.5 w-3.5" />
                             <span>{{
@@ -1473,8 +1479,14 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Confirm Cancel Modal -->
-        <Dialog v-model:open="isConfirmCancelModalOpen" @update:open="(val) => !val && closeConfirmCancelModal()">
-            <DialogContent class="rounded-3xl sm:max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]" :showCloseButton="false">
+        <Dialog
+            v-model:open="isConfirmCancelModalOpen"
+            @update:open="(val) => !val && closeConfirmCancelModal()"
+        >
+            <DialogContent
+                class="rounded-3xl border-none p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] sm:max-w-md"
+                :showCloseButton="false"
+            >
                 <div class="flex items-start space-x-4">
                     <div
                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"
@@ -1482,14 +1494,17 @@ const clearAnggota2 = () => {
                         <AlertCircle class="h-5 w-5" />
                     </div>
                     <div class="min-w-0 space-y-1 text-left">
-                        <DialogTitle class="text-base font-black text-slate-900">
+                        <DialogTitle
+                            class="text-base font-black text-slate-900"
+                        >
                             Batalkan Unggahan Berkas?
                         </DialogTitle>
-                        <DialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
-                            Apakah Anda yakin ingin membatalkan
-                            pengiriman dokumen persyaratan ini? Tindakan
-                            ini akan menghapus berkas PDF yang telah
-                            diunggah secara permanen.
+                        <DialogDescription
+                            class="text-xs leading-relaxed font-bold text-slate-500"
+                        >
+                            Apakah Anda yakin ingin membatalkan pengiriman
+                            dokumen persyaratan ini? Tindakan ini akan menghapus
+                            berkas PDF yang telah diunggah secara permanen.
                         </DialogDescription>
                     </div>
                 </div>
@@ -1498,14 +1513,14 @@ const clearAnggota2 = () => {
                     <button
                         type="button"
                         @click="closeConfirmCancelModal"
-                        class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 w-full sm:w-auto"
+                        class="w-full cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 sm:w-auto"
                     >
                         Tidak, Kembali
                     </button>
                     <button
                         type="button"
                         @click="confirmCancelDocument"
-                        class="cursor-pointer! flex items-center justify-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700 w-full sm:w-auto"
+                        class="flex w-full cursor-pointer! items-center justify-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700 sm:w-auto"
                     >
                         <Trash2 class="h-3.5 w-3.5" />
                         <span>Ya, Batalkan</span>
@@ -1515,12 +1530,21 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Payment Upload Modal Dialog -->
-        <Dialog v-model:open="isPaymentUploadModalOpen" @update:open="(val) => !val && closePaymentUploadModal()">
-            <DialogContent class="rounded-3xl sm:max-w-lg p-0 overflow-hidden border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+        <Dialog
+            v-model:open="isPaymentUploadModalOpen"
+            @update:open="(val) => !val && closePaymentUploadModal()"
+        >
+            <DialogContent
+                class="overflow-hidden rounded-3xl border-none p-0 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] sm:max-w-lg"
+            >
                 <!-- Header -->
-                <DialogHeader class="border-b border-slate-100 p-4 sm:p-6 flex flex-row items-center justify-between space-y-0">
+                <DialogHeader
+                    class="flex flex-row items-center justify-between space-y-0 border-b border-slate-100 p-4 sm:p-6"
+                >
                     <div class="space-y-1 text-left">
-                        <DialogTitle class="text-lg leading-tight font-black text-slate-900">
+                        <DialogTitle
+                            class="text-lg leading-tight font-black text-slate-900"
+                        >
                             Unggah Bukti Pembayaran
                         </DialogTitle>
                         <p
@@ -1534,7 +1558,7 @@ const clearAnggota2 = () => {
                 <!-- Body / Upload Form -->
                 <form
                     @submit.prevent="submitPayment"
-                    class="space-y-6 p-4 sm:p-6 text-left"
+                    class="space-y-6 p-4 text-left sm:p-6"
                 >
                     <!-- Drop / Select Area -->
                     <div
@@ -1556,9 +1580,7 @@ const clearAnggota2 = () => {
                         </div>
 
                         <div class="space-y-1 text-center">
-                            <p
-                                class="text-xs font-extrabold text-slate-800"
-                            >
+                            <p class="text-xs font-extrabold text-slate-800">
                                 {{
                                     selectedPaymentFileName
                                         ? 'Ganti Bukti Pembayaran terpilih'
@@ -1604,13 +1626,13 @@ const clearAnggota2 = () => {
 
                     <!-- Actions -->
                     <div
-                        class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-3 sm:gap-0 pt-2"
+                        class="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end sm:gap-0 sm:space-x-3"
                     >
                         <Button
                             type="button"
                             variant="outline"
                             @click="closePaymentUploadModal"
-                            class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 w-full sm:w-auto"
+                            class="w-full cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 sm:w-auto"
                         >
                             Batal
                         </Button>
@@ -1620,7 +1642,7 @@ const clearAnggota2 = () => {
                                 paymentForm.processing ||
                                 !paymentForm.bukti_pembayaran
                             "
-                            class="cursor-pointer! flex items-center justify-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50 w-full sm:w-auto"
+                            class="flex w-full cursor-pointer! items-center justify-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50 sm:w-auto"
                         >
                             <UploadCloud class="h-3.5 w-3.5" />
                             <span>{{
@@ -1635,8 +1657,14 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Confirm Cancel Payment Modal -->
-        <Dialog v-model:open="isConfirmCancelPaymentModalOpen" @update:open="(val) => !val && closeConfirmCancelPaymentModal()">
-            <DialogContent class="rounded-3xl sm:max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]" :showCloseButton="false">
+        <Dialog
+            v-model:open="isConfirmCancelPaymentModalOpen"
+            @update:open="(val) => !val && closeConfirmCancelPaymentModal()"
+        >
+            <DialogContent
+                class="rounded-3xl border-none p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] sm:max-w-md"
+                :showCloseButton="false"
+            >
                 <div class="flex items-start space-x-4">
                     <div
                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"
@@ -1644,14 +1672,17 @@ const clearAnggota2 = () => {
                         <AlertCircle class="h-5 w-5" />
                     </div>
                     <div class="min-w-0 space-y-1 text-left">
-                        <DialogTitle class="text-base font-black text-slate-900">
+                        <DialogTitle
+                            class="text-base font-black text-slate-900"
+                        >
                             Batalkan Unggahan Pembayaran?
                         </DialogTitle>
-                        <DialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
-                            Apakah Anda yakin ingin membatalkan
-                            pengiriman bukti pembayaran ini? Tindakan
-                            ini akan menghapus bukti transaksi yang
-                            telah diunggah secara permanen.
+                        <DialogDescription
+                            class="text-xs leading-relaxed font-bold text-slate-500"
+                        >
+                            Apakah Anda yakin ingin membatalkan pengiriman bukti
+                            pembayaran ini? Tindakan ini akan menghapus bukti
+                            transaksi yang telah diunggah secara permanen.
                         </DialogDescription>
                     </div>
                 </div>
@@ -1660,14 +1691,14 @@ const clearAnggota2 = () => {
                     <button
                         type="button"
                         @click="closeConfirmCancelPaymentModal"
-                        class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 w-full sm:w-auto"
+                        class="w-full cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 sm:w-auto"
                     >
                         Tidak, Kembali
                     </button>
                     <button
                         type="button"
                         @click="confirmCancelPayment"
-                        class="cursor-pointer! flex items-center justify-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700 w-full sm:w-auto"
+                        class="flex w-full cursor-pointer! items-center justify-center space-x-1.5 rounded-xl bg-red-600 px-6 py-2.5 text-xs font-black text-white hover:bg-red-700 sm:w-auto"
                     >
                         <Trash2 class="h-3.5 w-3.5" />
                         <span>Ya, Batalkan</span>
@@ -1677,18 +1708,28 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Proposal Submission Link drive Modal Dialog -->
-        <Dialog v-model:open="isSubmissionModalOpen" @update:open="(val) => !val && closeSubmissionModal()">
-            <DialogContent class="rounded-3xl sm:max-w-lg p-0 overflow-hidden border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+        <Dialog
+            v-model:open="isSubmissionModalOpen"
+            @update:open="(val) => !val && closeSubmissionModal()"
+        >
+            <DialogContent
+                class="overflow-hidden rounded-3xl border-none p-0 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] sm:max-w-lg"
+            >
                 <!-- Header -->
-                <DialogHeader class="border-b border-slate-100 p-4 sm:p-6 flex flex-row items-center justify-between space-y-0">
+                <DialogHeader
+                    class="flex flex-row items-center justify-between space-y-0 border-b border-slate-100 p-4 sm:p-6"
+                >
                     <div class="space-y-1 text-left">
-                        <DialogTitle class="text-lg leading-tight font-black text-slate-900">
+                        <DialogTitle
+                            class="text-lg leading-tight font-black text-slate-900"
+                        >
                             Kumpulkan Link Proposal
                         </DialogTitle>
                         <p
                             class="text-[10px] font-bold tracking-wider text-slate-400 uppercase"
                         >
-                            Kumpulkan Proposal & Surat Orisinalitas (Google Drive Link)
+                            Kumpulkan Proposal & Surat Orisinalitas (Google
+                            Drive Link)
                         </p>
                     </div>
                 </DialogHeader>
@@ -1696,7 +1737,7 @@ const clearAnggota2 = () => {
                 <!-- Body / Form -->
                 <form
                     @submit.prevent="triggerConfirmSubmission"
-                    class="space-y-5 p-4 sm:p-6 text-left"
+                    class="space-y-5 p-4 text-left sm:p-6"
                 >
                     <!-- Info Box -->
                     <div
@@ -1719,15 +1760,14 @@ const clearAnggota2 = () => {
                                 <li>
                                     Atur hak akses sharing folder ke:
                                     <strong
-                                        >"Siapa saja yang memiliki link
-                                        dapat melihat"</strong
+                                        >"Siapa saja yang memiliki link dapat
+                                        melihat"</strong
                                     >
                                     (Public)
                                 </li>
                                 <li>
                                     Tempel (Paste) alamat URL folder Google
-                                    Drive tersebut pada kolom input di bawah
-                                    ini
+                                    Drive tersebut pada kolom input di bawah ini
                                 </li>
                             </ul>
                         </div>
@@ -1743,17 +1783,13 @@ const clearAnggota2 = () => {
                             type="text"
                             v-model="submissionForm.link_file_submission"
                             placeholder="Contoh: https://drive.google.com/drive/folders/..."
-                            class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-xs font-bold text-slate-700 focus:ring-2 focus:ring-blue-900 focus:outline-none animate-none"
+                            class="w-full animate-none rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-xs font-bold text-slate-700 focus:ring-2 focus:ring-blue-900 focus:outline-none"
                         />
                         <div
-                            v-if="
-                                submissionForm.errors.link_file_submission
-                            "
+                            v-if="submissionForm.errors.link_file_submission"
                             class="mt-1 flex items-center space-x-1.5 text-red-500"
                         >
-                            <AlertCircle
-                                class="h-3.5 w-3.5 flex-shrink-0"
-                            />
+                            <AlertCircle class="h-3.5 w-3.5 flex-shrink-0" />
                             <span class="text-[10px] font-bold">{{
                                 submissionForm.errors.link_file_submission
                             }}</span>
@@ -1762,19 +1798,19 @@ const clearAnggota2 = () => {
 
                     <!-- Actions -->
                     <div
-                        class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-3 sm:gap-0 pt-2"
+                        class="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end sm:gap-0 sm:space-x-3"
                     >
                         <Button
                             type="button"
                             variant="outline"
                             @click="closeSubmissionModal"
-                            class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 w-full sm:w-auto"
+                            class="w-full cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 sm:w-auto"
                         >
                             Batal
                         </Button>
                         <Button
                             type="submit"
-                            class="cursor-pointer! flex items-center justify-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] w-full sm:w-auto"
+                            class="flex w-full cursor-pointer! items-center justify-center space-x-2 rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-[#15233d] sm:w-auto"
                         >
                             <UploadCloud class="h-3.5 w-3.5" />
                             <span>Kumpulkan Link</span>
@@ -1785,8 +1821,14 @@ const clearAnggota2 = () => {
         </Dialog>
 
         <!-- Double Confirm Submit Proposal Modal -->
-        <Dialog v-model:open="isConfirmSubmissionModalOpen" @update:open="(val) => !val && closeConfirmSubmissionModal()">
-            <DialogContent class="rounded-3xl sm:max-w-md p-6 border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]" :showCloseButton="false">
+        <Dialog
+            v-model:open="isConfirmSubmissionModalOpen"
+            @update:open="(val) => !val && closeConfirmSubmissionModal()"
+        >
+            <DialogContent
+                class="rounded-3xl border-none p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] sm:max-w-md"
+                :showCloseButton="false"
+            >
                 <div class="flex items-start space-x-4">
                     <div
                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600"
@@ -1794,25 +1836,25 @@ const clearAnggota2 = () => {
                         <AlertCircle class="h-5 w-5" />
                     </div>
                     <div class="min-w-0 space-y-1 text-left">
-                        <DialogTitle class="text-base font-black text-slate-900">
+                        <DialogTitle
+                            class="text-base font-black text-slate-900"
+                        >
                             Apakah Anda Yakin Mengumpulkan?
                         </DialogTitle>
-                        <DialogDescription class="text-xs leading-relaxed font-bold text-slate-500">
-                            Pengumpulan proposal dan surat orisinalitas
-                            hanya dapat dilakukan
-                            <strong
-                                class="font-extrabold text-slate-800"
+                        <DialogDescription
+                            class="text-xs leading-relaxed font-bold text-slate-500"
+                        >
+                            Pengumpulan proposal dan surat orisinalitas hanya
+                            dapat dilakukan
+                            <strong class="font-extrabold text-slate-800"
                                 >1 kali</strong
                             >
                             dan
-                            <strong
-                                class="font-extrabold text-slate-800"
-                                >tidak dapat diubah atau
-                                dibatalkan</strong
+                            <strong class="font-extrabold text-slate-800"
+                                >tidak dapat diubah atau dibatalkan</strong
                             >
-                            setelah dikirim. Pastikan link Google Drive
-                            Anda sudah benar dan dapat diakses secara
-                            publik.
+                            setelah dikirim. Pastikan link Google Drive Anda
+                            sudah benar dan dapat diakses secara publik.
                         </DialogDescription>
                     </div>
                 </div>
@@ -1821,7 +1863,7 @@ const clearAnggota2 = () => {
                     <button
                         type="button"
                         @click="closeConfirmSubmissionModal"
-                        class="cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 w-full sm:w-auto"
+                        class="w-full cursor-pointer! rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 sm:w-auto"
                     >
                         Periksa Kembali
                     </button>
@@ -1829,7 +1871,7 @@ const clearAnggota2 = () => {
                         type="button"
                         @click="submitProposal"
                         :disabled="submissionForm.processing"
-                        class="cursor-pointer! flex items-center justify-center rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50 w-full sm:w-auto"
+                        class="flex w-full cursor-pointer! items-center justify-center rounded-xl bg-[#1b2a4a] px-6 py-2.5 text-xs font-black text-white hover:bg-[#15233d] disabled:cursor-not-allowed! disabled:opacity-50 sm:w-auto"
                     >
                         {{
                             submissionForm.processing

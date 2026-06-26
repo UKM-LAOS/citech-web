@@ -113,7 +113,7 @@ const cancelSave = () => {
                                     form[`tanggal_mulai_${tahap}`] =
                                         $event.target.value
                                 "
-                                class="w-full h-11 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
+                                class="h-11 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
                             />
                             <div
                                 v-if="form.errors[`tanggal_mulai_${tahap}`]"
@@ -134,7 +134,7 @@ const cancelSave = () => {
                                     form[`tanggal_selesai_${tahap}`] =
                                         $event.target.value
                                 "
-                                class="w-full h-11 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
+                                class="h-11 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
                             />
                             <div
                                 v-if="form.errors[`tanggal_selesai_${tahap}`]"
@@ -159,11 +159,8 @@ const cancelSave = () => {
             </form>
         </div>
 
-// Confirmation Dialog
-        <div
-            v-if="showConfirm"
-            class="fixed inset-0 z-50 overflow-y-auto"
-        >
+        // Confirmation Dialog
+        <div v-if="showConfirm" class="fixed inset-0 z-50 overflow-y-auto">
             <div
                 class="flex min-h-full items-center justify-center p-4 text-center"
             >
@@ -183,21 +180,22 @@ const cancelSave = () => {
                                 Konfirmasi Perubahan
                             </h3>
                             <p class="text-sm leading-relaxed text-slate-500">
-                                Apakah kamu yakin untuk mengubah tanggal submission?
+                                Apakah kamu yakin untuk mengubah tanggal
+                                submission?
                             </p>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <button
                                 type="button"
                                 @click="cancelSave"
-                                class="rounded-xl bg-slate-100 px-4 py-2 text-sm font-bold text-slate-600 border-none transition hover:bg-slate-200"
+                                class="rounded-xl border-none bg-slate-100 px-4 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-200"
                             >
                                 Batal
                             </button>
                             <button
                                 type="button"
                                 @click="confirmSave"
-                                class="rounded-xl bg-[#1e4d8c] px-4 py-2 text-sm font-bold text-white border-none transition hover:bg-[#153a6b]"
+                                class="rounded-xl border-none bg-[#1e4d8c] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#153a6b]"
                             >
                                 Ya, Simpan
                             </button>

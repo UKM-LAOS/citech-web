@@ -31,12 +31,11 @@ defineOptions({
     <h1 class="sr-only">Keamanan Akun</h1>
 
     <div class="space-y-6">
-        <div class="border-b border-slate-100 pb-4 mb-2">
-            <h3 class="text-lg font-extrabold text-slate-800">
-                Ubah Password
-            </h3>
-            <p class="text-xs font-bold text-slate-400 mt-1">
-                Pastikan akun Anda menggunakan kata sandi yang panjang dan acak demi menjaga keamanan akun.
+        <div class="mb-2 border-b border-slate-100 pb-4">
+            <h3 class="text-lg font-extrabold text-slate-800">Ubah Password</h3>
+            <p class="mt-1 text-xs font-bold text-slate-400">
+                Pastikan akun Anda menggunakan kata sandi yang panjang dan acak
+                demi menjaga keamanan akun.
             </p>
         </div>
 
@@ -55,11 +54,15 @@ defineOptions({
             v-slot="{ errors, processing }"
         >
             <div class="grid gap-2">
-                <Label for="current_password" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Kata Sandi Saat Ini</Label>
+                <Label
+                    for="current_password"
+                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                    >Kata Sandi Saat Ini</Label
+                >
                 <PasswordInput
                     id="current_password"
                     name="current_password"
-                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
+                    class="mt-1 block h-11! w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none!"
                     autocomplete="current-password"
                     placeholder="Masukkan kata sandi saat ini"
                 />
@@ -67,11 +70,15 @@ defineOptions({
             </div>
 
             <div class="grid gap-2">
-                <Label for="password" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Kata Sandi Baru</Label>
+                <Label
+                    for="password"
+                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                    >Kata Sandi Baru</Label
+                >
                 <PasswordInput
                     id="password"
                     name="password"
-                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
+                    class="mt-1 block h-11! w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none!"
                     autocomplete="new-password"
                     placeholder="Masukkan kata sandi baru"
                     :passwordrules="props.passwordRules"
@@ -80,11 +87,15 @@ defineOptions({
             </div>
 
             <div class="grid gap-2">
-                <Label for="password_confirmation" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Konfirmasi Kata Sandi Baru</Label>
+                <Label
+                    for="password_confirmation"
+                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                    >Konfirmasi Kata Sandi Baru</Label
+                >
                 <PasswordInput
                     id="password_confirmation"
                     name="password_confirmation"
-                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
+                    class="mt-1 block h-11! w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none!"
                     autocomplete="new-password"
                     placeholder="Konfirmasi kata sandi baru"
                     :passwordrules="props.passwordRules"
@@ -95,7 +106,7 @@ defineOptions({
             <div class="flex items-center gap-4 pt-2">
                 <Button
                     :disabled="processing"
-                    class="flex items-center space-x-2 rounded-xl bg-[#1e4d8c] hover:bg-[#153a6b] px-8! py-3! h-11! text-xs font-black tracking-wider text-white shadow-md transition"
+                    class="flex h-11! items-center space-x-2 rounded-xl bg-[#1e4d8c] px-8! py-3! text-xs font-black tracking-wider text-white shadow-md transition hover:bg-[#153a6b]"
                     data-test="update-password-button"
                 >
                     Ubah Password
@@ -103,5 +114,4 @@ defineOptions({
             </div>
         </Form>
     </div>
-
 </template>

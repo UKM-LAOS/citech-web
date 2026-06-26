@@ -126,8 +126,8 @@ onMounted(() => {
 
 onUnmounted(() => {
     if (timer) {
-clearInterval(timer);
-}
+        clearInterval(timer);
+    }
 
     window.removeEventListener('scroll', handleScroll);
 });
@@ -135,8 +135,8 @@ clearInterval(timer);
 // Auto-duplicate sponsors if the active count is small to ensure smooth marquee scrolling
 const duplicatedSponsors = computed(() => {
     if (!props.sponsors || props.sponsors.length === 0) {
-return [];
-}
+        return [];
+    }
 
     let list = [...props.sponsors];
 
@@ -225,8 +225,8 @@ const formattedTimelineItems = computed(() => {
 
     const formatRange = (startStr, endStr) => {
         if (!startStr || !endStr) {
-return '';
-}
+            return '';
+        }
 
         const start = new Date(startStr);
         const end = new Date(endStr);
@@ -1225,7 +1225,7 @@ return '';
                 </div>
 
                 <!-- FAQ Accordion List with hover and smooth layout changes -->
-                <Accordion type="single" class="space-y-4 w-full" collapsible>
+                <Accordion type="single" class="w-full space-y-4" collapsible>
                     <AccordionItem
                         v-for="(faq, index) in faqs"
                         :key="index"
@@ -1243,7 +1243,7 @@ return '';
                         }"
                     >
                         <AccordionTrigger
-                            class="flex w-full items-center justify-between px-6 py-5 text-left transition duration-300 hover:bg-slate-50/50 hover:no-underline [&[data-state=open]>svg]:text-blue-500 focus:outline-none"
+                            class="flex w-full items-center justify-between px-6 py-5 text-left transition duration-300 hover:bg-slate-50/50 hover:no-underline focus:outline-none [&[data-state=open]>svg]:text-blue-500"
                         >
                             <span
                                 class="text-sm font-extrabold text-slate-800 md:text-base"

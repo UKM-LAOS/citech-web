@@ -13,14 +13,6 @@ import {
 } from '@lucide/vue';
 import { ref, computed } from 'vue';
 import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -29,6 +21,14 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 
 const props = defineProps({
     teams: Array,
@@ -41,8 +41,8 @@ const isDetailModalOpen = ref(false);
 // Filter teams by search query
 const filteredTeams = computed(() => {
     if (!props.teams) {
-return [];
-}
+        return [];
+    }
 
     return props.teams.filter((team) => {
         const query = searchQuery.value.toLowerCase();
@@ -56,8 +56,8 @@ return [];
 
 const formatDate = (dateStr) => {
     if (!dateStr) {
-return '-';
-}
+        return '-';
+    }
 
     const options = {
         day: 'numeric',
@@ -82,8 +82,8 @@ const mapStatusSeleksi = (status) => {
 
 const getKetuaName = (members) => {
     if (!members) {
-return '-';
-}
+        return '-';
+    }
 
     const ketua = members.find((m) => m.role === 'ketua');
 
@@ -95,12 +95,12 @@ const openTeamDetails = (team) => {
     const membersList = team.members
         ? [...team.members].sort((a, b) => {
               if (a.role === 'ketua') {
-return -1;
-}
+                  return -1;
+              }
 
               if (b.role === 'ketua') {
-return 1;
-}
+                  return 1;
+              }
 
               return a.id_member - b.id_member;
           })
@@ -152,7 +152,9 @@ const closeTeamDetails = () => {
                 </div>
 
                 <!-- Search & Export -->
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center w-full flex-shrink-0 md:w-auto">
+                <div
+                    class="flex w-full flex-shrink-0 flex-col gap-3 sm:flex-row sm:items-center md:w-auto"
+                >
                     <!-- Search Input -->
                     <div class="relative w-full sm:w-64 md:w-80">
                         <span
@@ -172,7 +174,7 @@ const closeTeamDetails = () => {
                     <a
                         :href="route('admin.tim-terdaftar.export')"
                         target="_blank"
-                        class="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 transition"
+                        class="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700"
                     >
                         <Download class="h-4 w-4" />
                         <span>Export Excel</span>
@@ -190,20 +192,36 @@ const closeTeamDetails = () => {
                             <TableRow
                                 class="border-b border-slate-100 bg-slate-50/70 text-[10px] font-black tracking-widest text-slate-400 uppercase hover:bg-slate-50/70"
                             >
-                                <TableHead class="px-6 py-4 text-slate-400">Nama Tim / Instansi</TableHead>
-                                <TableHead class="px-6 py-4 text-slate-400">Ketua Tim</TableHead>
-                                <TableHead class="px-6 py-4 text-slate-400">Batch Lomba</TableHead>
-                                <TableHead class="px-6 py-4 text-slate-400">Tanggal Verifikasi</TableHead>
-                                <TableHead class="px-6 py-4 text-center text-slate-400">
+                                <TableHead class="px-6 py-4 text-slate-400"
+                                    >Nama Tim / Instansi</TableHead
+                                >
+                                <TableHead class="px-6 py-4 text-slate-400"
+                                    >Ketua Tim</TableHead
+                                >
+                                <TableHead class="px-6 py-4 text-slate-400"
+                                    >Batch Lomba</TableHead
+                                >
+                                <TableHead class="px-6 py-4 text-slate-400"
+                                    >Tanggal Verifikasi</TableHead
+                                >
+                                <TableHead
+                                    class="px-6 py-4 text-center text-slate-400"
+                                >
                                     Status Lomba
                                 </TableHead>
-                                <TableHead class="px-6 py-4 text-center text-slate-400">Aksi</TableHead>
+                                <TableHead
+                                    class="px-6 py-4 text-center text-slate-400"
+                                    >Aksi</TableHead
+                                >
                             </TableRow>
                         </TableHeader>
                         <TableBody
                             class="divide-y divide-slate-100 text-xs font-bold text-slate-700"
                         >
-                            <TableRow v-if="filteredTeams.length === 0" class="hover:bg-transparent">
+                            <TableRow
+                                v-if="filteredTeams.length === 0"
+                                class="hover:bg-transparent"
+                            >
                                 <TableCell
                                     colspan="6"
                                     class="py-12 text-center font-bold text-slate-400"
@@ -214,7 +232,7 @@ const closeTeamDetails = () => {
                             <TableRow
                                 v-for="team in filteredTeams"
                                 :key="team.id_tim"
-                                class="transition-colors hover:bg-slate-50/30 border-b border-slate-100"
+                                class="border-b border-slate-100 transition-colors hover:bg-slate-50/30"
                             >
                                 <!-- Team / Univ -->
                                 <TableCell class="space-y-1 px-6 py-4">
@@ -300,12 +318,22 @@ const closeTeamDetails = () => {
         </div>
 
         <!-- Custom Details Modal (Centralized glassmorphic look) -->
-        <Dialog v-model:open="isDetailModalOpen" @update:open="(val) => !val && closeTeamDetails()">
-            <DialogContent v-if="selectedTeamDetails" class="rounded-3xl max-w-2xl p-0 overflow-hidden border-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+        <Dialog
+            v-model:open="isDetailModalOpen"
+            @update:open="(val) => !val && closeTeamDetails()"
+        >
+            <DialogContent
+                v-if="selectedTeamDetails"
+                class="max-w-2xl overflow-hidden rounded-3xl border-none p-0 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
+            >
                 <!-- Header -->
-                <DialogHeader class="border-b border-slate-100 p-6 flex flex-row items-center justify-between space-y-0">
+                <DialogHeader
+                    class="flex flex-row items-center justify-between space-y-0 border-b border-slate-100 p-6"
+                >
                     <div class="space-y-1">
-                        <DialogTitle class="text-lg leading-tight font-black text-slate-900">
+                        <DialogTitle
+                            class="text-lg leading-tight font-black text-slate-900"
+                        >
                             Detail Anggota Kelompok
                         </DialogTitle>
                         <p

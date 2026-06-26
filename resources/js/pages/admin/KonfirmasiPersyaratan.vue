@@ -36,38 +36,57 @@ const filteredTeams = computed(() => {
 
     const result = props.teams.filter((team) => {
         const query = searchQuery.value.toLowerCase();
-        const matchesQuery = team.nama_tim.toLowerCase().includes(query) ||
-                             team.universitas.toLowerCase().includes(query);
+        const matchesQuery =
+            team.nama_tim.toLowerCase().includes(query) ||
+            team.universitas.toLowerCase().includes(query);
 
-        if (!matchesQuery) return false;
+        if (!matchesQuery) {
+            return false;
+        }
 
         if (statusFilter.value !== 'all') {
             if (statusFilter.value === 'belum') {
                 return !team.dokumen_registrasi;
             }
-            return team.dokumen_registrasi && team.dokumen_registrasi.status_registrasi === statusFilter.value;
+
+            return (
+                team.dokumen_registrasi &&
+                team.dokumen_registrasi.status_registrasi === statusFilter.value
+            );
         }
 
         return true;
     });
 
     result.sort((a, b) => {
-        const statusA = a.dokumen_registrasi ? a.dokumen_registrasi.status_registrasi : 'pending_upload';
-        const statusB = b.dokumen_registrasi ? b.dokumen_registrasi.status_registrasi : 'pending_upload';
+        const statusA = a.dokumen_registrasi
+            ? a.dokumen_registrasi.status_registrasi
+            : 'pending_upload';
+        const statusB = b.dokumen_registrasi
+            ? b.dokumen_registrasi.status_registrasi
+            : 'pending_upload';
 
         const weight = {
-            'pending': 1,
-            'pending_upload': 2,
-            'ditolak': 3,
-            'berhasil': 4
+            pending: 1,
+            pending_upload: 2,
+            ditolak: 3,
+            berhasil: 4,
         };
 
         const diff = (weight[statusA] || 5) - (weight[statusB] || 5);
-        if (diff !== 0) return diff;
+
+        if (diff !== 0) {
+            return diff;
+        }
 
         // Secondary sort: upload date (uploaded_at) descending
-        const dateA = a.dokumen_registrasi ? new Date(a.dokumen_registrasi.uploaded_at).getTime() : 0;
-        const dateB = b.dokumen_registrasi ? new Date(b.dokumen_registrasi.uploaded_at).getTime() : 0;
+        const dateA = a.dokumen_registrasi
+            ? new Date(a.dokumen_registrasi.uploaded_at).getTime()
+            : 0;
+        const dateB = b.dokumen_registrasi
+            ? new Date(b.dokumen_registrasi.uploaded_at).getTime()
+            : 0;
+
         return dateB - dateA;
     });
 
@@ -76,8 +95,8 @@ const filteredTeams = computed(() => {
 
 const formatDate = (dateStr) => {
     if (!dateStr) {
-return '-';
-}
+        return '-';
+    }
 
     const options = {
         day: 'numeric',
@@ -174,7 +193,9 @@ const submitRejection = () => {
                 </div>
 
                 <!-- Search & Filter Status -->
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center w-full flex-shrink-0 md:w-auto">
+                <div
+                    class="flex w-full flex-shrink-0 flex-col gap-3 sm:flex-row sm:items-center md:w-auto"
+                >
                     <!-- Search Input -->
                     <div class="relative w-full sm:w-64 md:w-80">
                         <span
@@ -194,7 +215,7 @@ const submitRejection = () => {
                     <div class="relative w-full sm:w-44">
                         <select
                             v-model="statusFilter"
-                            class="w-full rounded-xl border border-slate-200 bg-white py-2.5 px-3 pr-8 text-xs font-bold text-slate-700 focus:ring-2 focus:ring-blue-900 focus:outline-none cursor-pointer shadow-sm hover:border-slate-300 transition"
+                            class="w-full cursor-pointer rounded-xl border border-slate-200 bg-white px-3 py-2.5 pr-8 text-xs font-bold text-slate-700 shadow-sm transition hover:border-slate-300 focus:ring-2 focus:ring-blue-900 focus:outline-none"
                         >
                             <option value="all">Semua Status</option>
                             <option value="belum">Belum Mengunggah</option>

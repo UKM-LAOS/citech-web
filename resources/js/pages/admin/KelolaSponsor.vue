@@ -12,8 +12,6 @@ import {
 } from '@lucide/vue';
 import { ref } from 'vue';
 import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -21,6 +19,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const props = defineProps({
     sponsors: {
@@ -206,7 +206,7 @@ const toggleStatus = (sponsor) => {
         },
         {
             preserveScroll: true,
-        }
+        },
     );
 };
 </script>
@@ -380,225 +380,231 @@ const toggleStatus = (sponsor) => {
         </div>
 
         <!-- Add / Edit Modal -->
-        <Dialog v-model:open="isOpenModal" @update:open="(val) => !val && closeModal()">
-            <DialogContent class="rounded-3xl sm:max-w-lg p-0 overflow-hidden border-none shadow-2xl">
-                    <!-- Modal Header -->
-                    <DialogHeader class="flex flex-row items-center justify-between border-b border-slate-100 px-6 py-5 space-y-0">
-                        <DialogTitle class="text-base font-extrabold text-slate-800">
-                            {{
-                                isEditMode
-                                    ? 'Edit Mitra Sponsor'
-                                    : 'Tambah Mitra Sponsor Baru'
-                            }}
-                        </DialogTitle>
-                    </DialogHeader>
+        <Dialog
+            v-model:open="isOpenModal"
+            @update:open="(val) => !val && closeModal()"
+        >
+            <DialogContent
+                class="overflow-hidden rounded-3xl border-none p-0 shadow-2xl sm:max-w-lg"
+            >
+                <!-- Modal Header -->
+                <DialogHeader
+                    class="flex flex-row items-center justify-between space-y-0 border-b border-slate-100 px-6 py-5"
+                >
+                    <DialogTitle
+                        class="text-base font-extrabold text-slate-800"
+                    >
+                        {{
+                            isEditMode
+                                ? 'Edit Mitra Sponsor'
+                                : 'Tambah Mitra Sponsor Baru'
+                        }}
+                    </DialogTitle>
+                </DialogHeader>
 
-                    <!-- Modal Body / Form -->
-                    <form @submit.prevent="handleSubmit" class="space-y-4 p-6">
-                        <!-- Nama Sponsor -->
+                <!-- Modal Body / Form -->
+                <form @submit.prevent="handleSubmit" class="space-y-4 p-6">
+                    <!-- Nama Sponsor -->
+                    <div class="space-y-1.5">
+                        <Label
+                            class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                            >Nama Sponsor</Label
+                        >
+                        <Input
+                            type="text"
+                            v-model="form.nama_sponsor"
+                            placeholder="Masukkan nama brand atau perusahaan"
+                            class="h-11 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:border-transparent focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
+                            required
+                        />
+                        <div
+                            v-if="form.errors.nama_sponsor"
+                            class="mt-1 text-xs font-bold text-red-500"
+                        >
+                            {{ form.errors.nama_sponsor }}
+                        </div>
+                    </div>
+
+                    <!-- Link Sponsor -->
+                    <div class="space-y-1.5">
+                        <Label
+                            class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                            >Tautan Website (Opsional)</Label
+                        >
+                        <Input
+                            type="url"
+                            v-model="form.link_sponsor"
+                            placeholder="https://example.com"
+                            class="h-11 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:border-transparent focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
+                        />
+                        <div
+                            v-if="form.errors.link_sponsor"
+                            class="mt-1 text-xs font-bold text-red-500"
+                        >
+                            {{ form.errors.link_sponsor }}
+                        </div>
+                    </div>
+
+                    <!-- Grid Order & Status -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Urutan Tampilan -->
                         <div class="space-y-1.5">
                             <Label
                                 class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
-                                >Nama Sponsor</Label
+                                >Urutan Tampilan</Label
                             >
                             <Input
-                                type="text"
-                                v-model="form.nama_sponsor"
-                                placeholder="Masukkan nama brand atau perusahaan"
-                                class="w-full h-11 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:border-transparent focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
+                                type="number"
+                                v-model="form.order"
+                                min="0"
+                                class="h-11 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 focus:border-transparent focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
                                 required
                             />
                             <div
-                                v-if="form.errors.nama_sponsor"
+                                v-if="form.errors.order"
                                 class="mt-1 text-xs font-bold text-red-500"
                             >
-                                {{ form.errors.nama_sponsor }}
+                                {{ form.errors.order }}
                             </div>
                         </div>
 
-                        <!-- Link Sponsor -->
-                        <div class="space-y-1.5">
+                        <!-- Toggle Status Aktif -->
+                        <div class="flex flex-col justify-end space-y-1.5">
                             <Label
-                                class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
-                                >Tautan Website (Opsional)</Label
+                                class="mb-3 block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                                >Status Aktif</Label
                             >
-                            <Input
-                                type="url"
-                                v-model="form.link_sponsor"
-                                placeholder="https://example.com"
-                                class="w-full h-11 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:border-transparent focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
-                            />
-                            <div
-                                v-if="form.errors.link_sponsor"
-                                class="mt-1 text-xs font-bold text-red-500"
+                            <label
+                                class="inline-flex cursor-pointer items-center select-none"
                             >
-                                {{ form.errors.link_sponsor }}
-                            </div>
-                        </div>
-
-                        <!-- Grid Order & Status -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <!-- Urutan Tampilan -->
-                            <div class="space-y-1.5">
-                                <Label
-                                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
-                                    >Urutan Tampilan</Label
-                                >
-                                <Input
-                                    type="number"
-                                    v-model="form.order"
-                                    min="0"
-                                    class="w-full h-11 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 focus:border-transparent focus:ring-2 focus:ring-[#1e4d8c] focus:outline-none"
-                                    required
+                                <input
+                                    type="checkbox"
+                                    v-model="form.is_active"
+                                    class="peer sr-only"
                                 />
                                 <div
-                                    v-if="form.errors.order"
-                                    class="mt-1 text-xs font-bold text-red-500"
+                                    class="peer relative h-6 w-11 rounded-full bg-slate-200 peer-checked:bg-[#1e4d8c] peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full"
+                                ></div>
+                                <span
+                                    class="ms-3 text-xs font-bold"
+                                    :class="[
+                                        form.is_active
+                                            ? 'text-slate-800'
+                                            : 'text-slate-400',
+                                    ]"
                                 >
-                                    {{ form.errors.order }}
-                                </div>
-                            </div>
-
-                            <!-- Toggle Status Aktif -->
-                            <div class="flex flex-col justify-end space-y-1.5">
-                                <Label
-                                    class="mb-3 block text-[10px] font-black tracking-wider text-slate-400 uppercase"
-                                    >Status Aktif</Label
-                                >
-                                <label
-                                    class="inline-flex cursor-pointer items-center select-none"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        v-model="form.is_active"
-                                        class="peer sr-only"
-                                    />
-                                    <div
-                                        class="peer relative h-6 w-11 rounded-full bg-slate-200 peer-checked:bg-[#1e4d8c] peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full"
-                                    ></div>
-                                    <span
-                                        class="ms-3 text-xs font-bold"
-                                        :class="[
-                                            form.is_active
-                                                ? 'text-slate-800'
-                                                : 'text-slate-400',
-                                        ]"
-                                    >
-                                        {{
-                                            form.is_active
-                                                ? 'Aktif'
-                                                : 'Sembunyikan'
-                                        }}
-                                    </span>
-                                </label>
-                            </div>
+                                    {{
+                                        form.is_active ? 'Aktif' : 'Sembunyikan'
+                                    }}
+                                </span>
+                            </label>
                         </div>
+                    </div>
 
-                        <!-- Upload Logo Sponsor -->
-                        <div class="space-y-1.5">
-                            <Label
-                                class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
-                                >Logo Sponsor</Label
-                            >
-
-                            <!-- File Input Hidden -->
-                            <input
-                                type="file"
-                                ref="fileInput"
-                                @change="handleFileChange"
-                                accept="image/*"
-                                class="hidden"
-                            />
-
-                            <!-- Drag & Drop Zone -->
-                            <div
-                                @dragover="onDragOver"
-                                @dragleave="onDragLeave"
-                                @drop="onDrop"
-                                @click="triggerFileSelect"
-                                class="flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all duration-300"
-                                :class="[
-                                    isDragging
-                                        ? 'border-blue-500 bg-blue-50/20'
-                                        : logoPreview
-                                          ? 'border-slate-200 bg-slate-50/30'
-                                          : 'border-slate-200 hover:border-blue-400 hover:bg-slate-50/30',
-                                ]"
-                            >
-                                <!-- Preview Image -->
-                                <div
-                                    v-if="logoPreview"
-                                    class="group/preview relative max-w-full"
-                                >
-                                    <img
-                                        :src="logoPreview"
-                                        alt="Pratinjau Logo"
-                                        class="max-h-24 max-w-full rounded-md object-contain"
-                                    />
-                                    <button
-                                        type="button"
-                                        @click.stop="removeSelectedLogo"
-                                        class="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white shadow-md transition hover:scale-105 hover:bg-red-600"
-                                        title="Hapus Logo"
-                                    >
-                                        <X class="h-3.5 w-3.5" />
-                                    </button>
-                                </div>
-
-                                <!-- Upload Placeholder -->
-                                <div v-else class="space-y-2 text-slate-400">
-                                    <Upload
-                                        class="mx-auto h-8 w-8 stroke-[1.5] text-slate-400"
-                                    />
-                                    <div class="text-xs">
-                                        <span
-                                            class="font-extrabold text-blue-600"
-                                            >Klik untuk upload</span
-                                        >
-                                        atau seret file gambar
-                                    </div>
-                                    <p class="text-[10px] font-medium">
-                                        JPEG, PNG, JPG, SVG, WEBP (Max 2MB)
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div
-                                v-if="form.errors.logo_sponsor"
-                                class="mt-1 text-xs font-bold text-red-500"
-                            >
-                                {{ form.errors.logo_sponsor }}
-                            </div>
-                        </div>
-
-                        <!-- Submit Footer -->
-                        <div
-                            class="mt-6 flex justify-end gap-3 border-t border-slate-50 pt-4"
+                    <!-- Upload Logo Sponsor -->
+                    <div class="space-y-1.5">
+                        <Label
+                            class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                            >Logo Sponsor</Label
                         >
-                            <Button
-                                type="button"
-                                variant="outline"
-                                @click="closeModal"
-                                class="rounded-xl border border-slate-200 bg-slate-100 px-5 py-3 h-11 text-xs font-extrabold tracking-wider text-slate-600 uppercase border-none transition hover:bg-slate-200"
-                                :disabled="form.processing"
+
+                        <!-- File Input Hidden -->
+                        <input
+                            type="file"
+                            ref="fileInput"
+                            @change="handleFileChange"
+                            accept="image/*"
+                            class="hidden"
+                        />
+
+                        <!-- Drag & Drop Zone -->
+                        <div
+                            @dragover="onDragOver"
+                            @dragleave="onDragLeave"
+                            @drop="onDrop"
+                            @click="triggerFileSelect"
+                            class="flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all duration-300"
+                            :class="[
+                                isDragging
+                                    ? 'border-blue-500 bg-blue-50/20'
+                                    : logoPreview
+                                      ? 'border-slate-200 bg-slate-50/30'
+                                      : 'border-slate-200 hover:border-blue-400 hover:bg-slate-50/30',
+                            ]"
+                        >
+                            <!-- Preview Image -->
+                            <div
+                                v-if="logoPreview"
+                                class="group/preview relative max-w-full"
                             >
-                                Batal
-                            </Button>
-                            <Button
-                                type="submit"
-                                class="rounded-xl bg-[#1e4d8c] px-5 py-3 h-11 text-xs font-extrabold tracking-wider text-white uppercase shadow-md transition hover:scale-[1.01] hover:bg-[#153a6b] hover:shadow-blue-500/10 disabled:opacity-50"
-                                :disabled="form.processing"
-                            >
-                                {{
-                                    form.processing
-                                        ? 'Menyimpan...'
-                                        : isEditMode
-                                          ? 'Simpan Perubahan'
-                                          : 'Tambah Sponsor'
-                                }}
-                            </Button>
+                                <img
+                                    :src="logoPreview"
+                                    alt="Pratinjau Logo"
+                                    class="max-h-24 max-w-full rounded-md object-contain"
+                                />
+                                <button
+                                    type="button"
+                                    @click.stop="removeSelectedLogo"
+                                    class="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white shadow-md transition hover:scale-105 hover:bg-red-600"
+                                    title="Hapus Logo"
+                                >
+                                    <X class="h-3.5 w-3.5" />
+                                </button>
+                            </div>
+
+                            <!-- Upload Placeholder -->
+                            <div v-else class="space-y-2 text-slate-400">
+                                <Upload
+                                    class="mx-auto h-8 w-8 stroke-[1.5] text-slate-400"
+                                />
+                                <div class="text-xs">
+                                    <span class="font-extrabold text-blue-600"
+                                        >Klik untuk upload</span
+                                    >
+                                    atau seret file gambar
+                                </div>
+                                <p class="text-[10px] font-medium">
+                                    JPEG, PNG, JPG, SVG, WEBP (Max 2MB)
+                                </p>
+                            </div>
                         </div>
-                    </form>
+
+                        <div
+                            v-if="form.errors.logo_sponsor"
+                            class="mt-1 text-xs font-bold text-red-500"
+                        >
+                            {{ form.errors.logo_sponsor }}
+                        </div>
+                    </div>
+
+                    <!-- Submit Footer -->
+                    <div
+                        class="mt-6 flex justify-end gap-3 border-t border-slate-50 pt-4"
+                    >
+                        <Button
+                            type="button"
+                            variant="outline"
+                            @click="closeModal"
+                            class="h-11 rounded-xl border border-none border-slate-200 bg-slate-100 px-5 py-3 text-xs font-extrabold tracking-wider text-slate-600 uppercase transition hover:bg-slate-200"
+                            :disabled="form.processing"
+                        >
+                            Batal
+                        </Button>
+                        <Button
+                            type="submit"
+                            class="h-11 rounded-xl bg-[#1e4d8c] px-5 py-3 text-xs font-extrabold tracking-wider text-white uppercase shadow-md transition hover:scale-[1.01] hover:bg-[#153a6b] hover:shadow-blue-500/10 disabled:opacity-50"
+                            :disabled="form.processing"
+                        >
+                            {{
+                                form.processing
+                                    ? 'Menyimpan...'
+                                    : isEditMode
+                                      ? 'Simpan Perubahan'
+                                      : 'Tambah Sponsor'
+                            }}
+                        </Button>
+                    </div>
+                </form>
             </DialogContent>
         </Dialog>
 
@@ -628,14 +634,19 @@ const toggleStatus = (sponsor) => {
                                 <AlertCircle class="h-6 w-6" />
                             </div>
                             <div class="space-y-1">
-                                <h3 class="text-base font-extrabold text-slate-800">
+                                <h3
+                                    class="text-base font-extrabold text-slate-800"
+                                >
                                     Hapus Mitra Sponsor
                                 </h3>
-                                <p class="text-xs leading-relaxed text-slate-500">
+                                <p
+                                    class="text-xs leading-relaxed text-slate-500"
+                                >
                                     Apakah kamu yakin ingin menghapus sponsor
                                     <strong class="text-slate-800">{{
                                         deleteSponsorName
-                                    }}</strong>? Tindakan ini akan menghapus data beserta
+                                    }}</strong
+                                    >? Tindakan ini akan menghapus data beserta
                                     berkas logo secara permanen.
                                 </p>
                             </div>
@@ -645,14 +656,14 @@ const toggleStatus = (sponsor) => {
                             <button
                                 type="button"
                                 @click="cancelDelete"
-                                class="rounded-xl bg-slate-100 px-4 py-2.5 text-xs font-extrabold tracking-wider text-slate-600 uppercase border-none transition hover:bg-slate-200"
+                                class="rounded-xl border-none bg-slate-100 px-4 py-2.5 text-xs font-extrabold tracking-wider text-slate-600 uppercase transition hover:bg-slate-200"
                             >
                                 Batal
                             </button>
                             <button
                                 type="button"
                                 @click="executeDelete"
-                                class="rounded-xl bg-red-600 px-4 py-2.5 text-xs font-extrabold tracking-wider text-white uppercase border-none shadow-md transition hover:scale-[1.01] hover:bg-red-700 hover:shadow-red-500/10"
+                                class="rounded-xl border-none bg-red-600 px-4 py-2.5 text-xs font-extrabold tracking-wider text-white uppercase shadow-md transition hover:scale-[1.01] hover:bg-red-700 hover:shadow-red-500/10"
                             >
                                 Hapus Permanen
                             </button>

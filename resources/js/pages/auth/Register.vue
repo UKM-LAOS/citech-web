@@ -3,9 +3,9 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Eye, EyeOff, User, Mail, Lock, ArrowRight } from '@lucide/vue';
 import { ref, computed } from 'vue';
 import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 
 const form = useForm({
     name: '',
@@ -105,7 +105,7 @@ const criteria = computed(() => [
                             >
                             <div class="relative">
                                 <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3.5 z-10 text-slate-400"
+                                    class="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-400"
                                 >
                                     <User class="h-4.5 w-4.5" />
                                 </span>
@@ -116,7 +116,7 @@ const criteria = computed(() => [
                                     placeholder="Masukkan nama lengkap kamu"
                                     required
                                     autofocus
-                                    class="w-full h-11 rounded-xl border border-slate-200 py-2.5 pr-4 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
+                                    class="h-11 w-full rounded-xl border border-slate-200 py-2.5 pr-4 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
                                 />
                             </div>
                             <InputError :message="form.errors.name" />
@@ -131,7 +131,7 @@ const criteria = computed(() => [
                             >
                             <div class="relative">
                                 <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3.5 z-10 text-slate-400"
+                                    class="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-400"
                                 >
                                     <Mail class="h-4.5 w-4.5" />
                                 </span>
@@ -141,7 +141,7 @@ const criteria = computed(() => [
                                     v-model="form.email"
                                     placeholder="Masukkan email kamu"
                                     required
-                                    class="w-full h-11 rounded-xl border border-slate-200 py-2.5 pr-4 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
+                                    class="h-11 w-full rounded-xl border border-slate-200 py-2.5 pr-4 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
                                 />
                             </div>
                             <InputError :message="form.errors.email" />
@@ -156,7 +156,7 @@ const criteria = computed(() => [
                             >
                             <div class="relative">
                                 <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3.5 z-10 text-slate-400"
+                                    class="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-400"
                                 >
                                     <Lock class="h-4.5 w-4.5" />
                                 </span>
@@ -166,12 +166,12 @@ const criteria = computed(() => [
                                     v-model="form.password"
                                     placeholder="Buat password kamu"
                                     required
-                                    class="w-full h-11 rounded-xl border border-slate-200 py-2.5 pr-11 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
+                                    class="h-11 w-full rounded-xl border border-slate-200 py-2.5 pr-11 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
                                 />
                                 <button
                                     type="button"
                                     @click="showPassword = !showPassword"
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3.5 z-10 text-slate-400 hover:text-slate-600 focus:outline-none"
+                                    class="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 focus:outline-none"
                                 >
                                     <EyeOff
                                         v-if="showPassword"
@@ -221,7 +221,7 @@ const criteria = computed(() => [
                             >
                             <div class="relative">
                                 <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3.5 z-10 text-slate-400"
+                                    class="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-400"
                                 >
                                     <Lock class="h-4.5 w-4.5" />
                                 </span>
@@ -235,7 +235,7 @@ const criteria = computed(() => [
                                     v-model="form.password_confirmation"
                                     placeholder="Ulangi password kamu"
                                     required
-                                    class="w-full h-11 rounded-xl border border-slate-200 py-2.5 pr-11 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
+                                    class="h-11 w-full rounded-xl border border-slate-200 py-2.5 pr-11 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
                                 />
                                 <button
                                     type="button"
@@ -243,7 +243,7 @@ const criteria = computed(() => [
                                         showConfirmPassword =
                                             !showConfirmPassword
                                     "
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3.5 z-10 text-slate-400 hover:text-slate-600 focus:outline-none"
+                                    class="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 focus:outline-none"
                                 >
                                     <EyeOff
                                         v-if="showConfirmPassword"
@@ -261,7 +261,7 @@ const criteria = computed(() => [
                         <Button
                             type="submit"
                             :disabled="form.processing"
-                            class="animate-fade-in-up mt-4 flex w-full h-11 items-center justify-center space-x-2 rounded-xl bg-[#1e4d8c] py-3 text-sm font-bold text-white shadow-md transition delay-500 duration-300 hover:bg-[#153a6b] hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50"
+                            class="animate-fade-in-up mt-4 flex h-11 w-full items-center justify-center space-x-2 rounded-xl bg-[#1e4d8c] py-3 text-sm font-bold text-white shadow-md transition delay-500 duration-300 hover:bg-[#153a6b] hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50"
                         >
                             <span>Daftar</span>
                             <ArrowRight class="h-4 w-4" />

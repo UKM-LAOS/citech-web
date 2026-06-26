@@ -38,12 +38,12 @@ class SubmissionController extends Controller
             ->select('tim.*')
             ->get();
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
 
         // Headers
         $headers = [
-            'No', 'Nama Tim', 'Universitas', 'Link Pengumpulan (Google Drive)', 'Tanggal Upload'
+            'No', 'Nama Tim', 'Universitas', 'Link Pengumpulan (Google Drive)', 'Tanggal Upload',
         ];
 
         foreach ($headers as $colIndex => $headerText) {
@@ -66,7 +66,7 @@ class SubmissionController extends Controller
             $sheet->getColumnDimensionByColumn($col)->setAutoSize(true);
         }
 
-        $filename = 'submission_karya_citech_' . date('Ymd_His') . '.xlsx';
+        $filename = 'submission_karya_citech_'.date('Ymd_His').'.xlsx';
 
         $response = new StreamedResponse(function () use ($spreadsheet) {
             $writer = new Xlsx($spreadsheet);
@@ -74,7 +74,7 @@ class SubmissionController extends Controller
         });
 
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
         $response->headers->set('Cache-Control', 'max-age=0');
 
         return $response;

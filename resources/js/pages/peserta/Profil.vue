@@ -1,15 +1,19 @@
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { User, Settings, Lock } from '@lucide/vue';
-import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
 import { computed } from 'vue';
+import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 const isAdmin = computed(() => !!user.value?.is_admin);
-const role = computed(() => isAdmin.value ? 'admin' : 'peserta');
-const activeMenu = computed(() => isAdmin.value ? 'admin.profil' : 'peserta.profil');
-const subtitle = computed(() => isAdmin.value ? 'Administrator' : 'Peserta Citech 2026');
+const role = computed(() => (isAdmin.value ? 'admin' : 'peserta'));
+const activeMenu = computed(() =>
+    isAdmin.value ? 'admin.profil' : 'peserta.profil',
+);
+const subtitle = computed(() =>
+    isAdmin.value ? 'Administrator' : 'Peserta Citech 2026',
+);
 </script>
 
 <template>

@@ -54,7 +54,9 @@ const verificationLinkSent = computed(
                     <p
                         class="text-xs leading-relaxed font-medium text-white/80"
                     >
-                        Satu langkah lagi untuk bergabung dalam ajang kompetisi Web Design tingkat nasional bagi generasi muda kreatif dan inovatif di UNEJ.
+                        Satu langkah lagi untuk bergabung dalam ajang kompetisi
+                        Web Design tingkat nasional bagi generasi muda kreatif
+                        dan inovatif di UNEJ.
                     </p>
                 </div>
             </div>
@@ -72,9 +74,13 @@ const verificationLinkSent = computed(
                             Verifikasi Email
                         </h1>
                         <p
-                            class="text-xs font-bold leading-relaxed text-slate-400"
+                            class="text-xs leading-relaxed font-bold text-slate-400"
                         >
-                            Terima kasih telah mendaftar! Sebelum memulai, silakan verifikasi alamat email Anda dengan mengeklik tautan yang baru saja kami kirimkan ke email Anda. Jika Anda tidak menerima email tersebut, kami dengan senang hati akan mengirimkan ulang.
+                            Terima kasih telah mendaftar! Sebelum memulai,
+                            silakan verifikasi alamat email Anda dengan
+                            mengeklik tautan yang baru saja kami kirimkan ke
+                            email Anda. Jika Anda tidak menerima email tersebut,
+                            kami dengan senang hati akan mengirimkan ulang.
                         </p>
                     </div>
 
@@ -83,12 +89,15 @@ const verificationLinkSent = computed(
                         v-if="verificationLinkSent"
                         class="animate-fade-in-up rounded-xl border border-green-200 bg-green-50 p-4 text-xs font-semibold text-green-700"
                     >
-                        Tautan verifikasi baru telah dikirimkan ke alamat email yang Anda berikan saat pendaftaran.
+                        Tautan verifikasi baru telah dikirimkan ke alamat email
+                        yang Anda berikan saat pendaftaran.
                     </div>
 
                     <!-- Form -->
                     <form @submit.prevent="submit" class="space-y-6">
-                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div
+                            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                        >
                             <Button
                                 type="submit"
                                 :disabled="form.processing"
@@ -170,4 +179,3 @@ const verificationLinkSent = computed(
     opacity: 0;
 }
 </style>
-

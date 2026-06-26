@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\StatusRegistrasi;
 use App\Models\DokumenRegistrasi;
+use App\Models\Pembayaran;
 use App\Models\Tim;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -155,7 +156,7 @@ class AdminRegistrationVerificationTest extends TestCase
         [$user, $tim, $doc] = $this->createTeamWithDocument();
 
         // Create approved payment for the team
-        \App\Models\Pembayaran::create([
+        Pembayaran::create([
             'id_tim' => $tim->id_tim,
             'bukti_pembayaran' => 'bukti_pembayaran/test.png',
             'status_pembayaran' => 'berhasil',
@@ -168,7 +169,7 @@ class AdminRegistrationVerificationTest extends TestCase
             ]);
 
         $response->assertRedirect();
-        
+
         $this->assertDatabaseHas('tim', [
             'id_tim' => $tim->id_tim,
             'status_seleksi' => 'penyisihan',
@@ -181,7 +182,7 @@ class AdminRegistrationVerificationTest extends TestCase
         [$user, $tim, $doc] = $this->createTeamWithDocument();
 
         // Create approved payment for the team with capitalized status
-        \App\Models\Pembayaran::create([
+        Pembayaran::create([
             'id_tim' => $tim->id_tim,
             'bukti_pembayaran' => 'bukti_pembayaran/test.png',
             'status_pembayaran' => 'Berhasil',
@@ -194,7 +195,7 @@ class AdminRegistrationVerificationTest extends TestCase
             ]);
 
         $response->assertRedirect();
-        
+
         $this->assertDatabaseHas('tim', [
             'id_tim' => $tim->id_tim,
             'status_seleksi' => 'penyisihan',

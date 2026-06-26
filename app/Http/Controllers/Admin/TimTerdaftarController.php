@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tim;
 use Inertia\Inertia;
 use Inertia\Response;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -38,16 +39,16 @@ class TimTerdaftarController extends Controller
             ->latest('created_at')
             ->get();
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
 
         // Headers
         $headers = [
-            'No', 'Nama Tim', 'Universitas', 'Status Seleksi', 'Batch Pendaftaran', 
+            'No', 'Nama Tim', 'Universitas', 'Status Seleksi', 'Batch Pendaftaran',
             'Nama Ketua', 'NIM Ketua', 'Jurusan Ketua',
             'Nama Anggota 1', 'NIM Anggota 1', 'Jurusan Anggota 1',
             'Nama Anggota 2', 'NIM Anggota 2', 'Jurusan Anggota 2',
-            'Tanggal Terdaftar'
+            'Tanggal Terdaftar',
         ];
 
         foreach ($headers as $colIndex => $headerText) {
@@ -67,12 +68,12 @@ class TimTerdaftarController extends Controller
             $sheet->setCellValue([2, $row], $team->nama_tim);
             $sheet->setCellValue([3, $row], $team->universitas);
             $sheet->setCellValue([4, $row], $team->status_seleksi);
-            $sheet->setCellValue([5, $row], 'Batch ' . ($team->batch ?? 1));
-            
+            $sheet->setCellValue([5, $row], 'Batch '.($team->batch ?? 1));
+
             // Set cell values and explicitly format NIMs as text to preserve leading zeros
             $sheet->setCellValue([6, $row], $ketua ? $ketua->nama_peserta : '-');
             if ($ketua) {
-                $sheet->getCell([7, $row])->setValueExplicit($ketua->nim_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->getCell([7, $row])->setValueExplicit($ketua->nim_peserta, DataType::TYPE_STRING);
             } else {
                 $sheet->setCellValue([7, $row], '-');
             }
@@ -80,7 +81,7 @@ class TimTerdaftarController extends Controller
 
             $sheet->setCellValue([9, $row], $anggota1 ? $anggota1->nama_peserta : '-');
             if ($anggota1) {
-                $sheet->getCell([10, $row])->setValueExplicit($anggota1->nim_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->getCell([10, $row])->setValueExplicit($anggota1->nim_peserta, DataType::TYPE_STRING);
             } else {
                 $sheet->setCellValue([10, $row], '-');
             }
@@ -88,7 +89,7 @@ class TimTerdaftarController extends Controller
 
             $sheet->setCellValue([12, $row], $anggota2 ? $anggota2->nama_peserta : '-');
             if ($anggota2) {
-                $sheet->getCell([13, $row])->setValueExplicit($anggota2->nim_peserta, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->getCell([13, $row])->setValueExplicit($anggota2->nim_peserta, DataType::TYPE_STRING);
             } else {
                 $sheet->setCellValue([13, $row], '-');
             }
@@ -104,7 +105,7 @@ class TimTerdaftarController extends Controller
             $sheet->getColumnDimensionByColumn($col)->setAutoSize(true);
         }
 
-        $filename = 'tim_terdaftar_citech_' . date('Ymd_His') . '.xlsx';
+        $filename = 'tim_terdaftar_citech_'.date('Ymd_His').'.xlsx';
 
         $response = new StreamedResponse(function () use ($spreadsheet) {
             $writer = new Xlsx($spreadsheet);
@@ -112,7 +113,7 @@ class TimTerdaftarController extends Controller
         });
 
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
         $response->headers->set('Cache-Control', 'max-age=0');
 
         return $response;

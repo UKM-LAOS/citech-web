@@ -3,10 +3,10 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from '@lucide/vue';
 import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
 
 defineProps({
     canResetPassword: {
@@ -112,7 +112,7 @@ const submit = () => {
                             >
                             <div class="relative">
                                 <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3.5 z-10 text-slate-400"
+                                    class="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-400"
                                 >
                                     <Mail class="h-5 w-5" />
                                 </span>
@@ -123,7 +123,7 @@ const submit = () => {
                                     placeholder="Masukkan email kamu"
                                     required
                                     autofocus
-                                    class="w-full h-12 rounded-xl border border-slate-200 py-3 pr-4 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
+                                    class="h-12 w-full rounded-xl border border-slate-200 py-3 pr-4 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
                                 />
                             </div>
                             <InputError :message="form.errors.email" />
@@ -147,7 +147,7 @@ const submit = () => {
                             </div>
                             <div class="relative">
                                 <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3.5 z-10 text-slate-400"
+                                    class="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-slate-400"
                                 >
                                     <Lock class="h-5 w-5" />
                                 </span>
@@ -157,12 +157,12 @@ const submit = () => {
                                     v-model="form.password"
                                     placeholder="Masukkan password kamu"
                                     required
-                                    class="w-full h-12 rounded-xl border border-slate-200 py-3 pr-11 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
+                                    class="h-12 w-full rounded-xl border border-slate-200 py-3 pr-11 pl-11 text-sm font-medium transition duration-300 focus:border-[#1e4d8c] focus:ring-2 focus:ring-blue-500/25 focus:outline-none"
                                 />
                                 <button
                                     type="button"
                                     @click="showPassword = !showPassword"
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3.5 z-10 text-slate-400 hover:text-slate-600 focus:outline-none"
+                                    class="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 focus:outline-none"
                                 >
                                     <EyeOff
                                         v-if="showPassword"
@@ -194,7 +194,7 @@ const submit = () => {
                         <Button
                             type="submit"
                             :disabled="form.processing"
-                            class="animate-fade-in-up flex w-full h-12 items-center justify-center space-x-2 rounded-xl bg-[#1e4d8c] py-3.5 text-sm font-bold text-white shadow-md transition delay-400 duration-300 hover:bg-[#153a6b] hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50"
+                            class="animate-fade-in-up flex h-12 w-full items-center justify-center space-x-2 rounded-xl bg-[#1e4d8c] py-3.5 text-sm font-bold text-white shadow-md transition delay-400 duration-300 hover:bg-[#153a6b] hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50"
                         >
                             <span>Masuk</span>
                             <ArrowRight class="h-4 w-4" />

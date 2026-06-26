@@ -157,10 +157,7 @@ const logout = () => {
                         </p>
                     </div>
                 </div>
-                <div
-                    v-else
-                    class=" mx-auto flex items-center justify-center"
-                >
+                <div v-else class="mx-auto flex items-center justify-center">
                     <img
                         src="/assets/logo-citech.png"
                         alt="Logo CITECH"

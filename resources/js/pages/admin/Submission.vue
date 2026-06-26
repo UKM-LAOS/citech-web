@@ -33,8 +33,13 @@ const filteredTeams = computed(() => {
     });
 
     result.sort((a, b) => {
-        const dateA = a.submission ? new Date(a.submission.uploaded_at).getTime() : 0;
-        const dateB = b.submission ? new Date(b.submission.uploaded_at).getTime() : 0;
+        const dateA = a.submission
+            ? new Date(a.submission.uploaded_at).getTime()
+            : 0;
+        const dateB = b.submission
+            ? new Date(b.submission.uploaded_at).getTime()
+            : 0;
+
         return dateB - dateA;
     });
 
@@ -43,8 +48,8 @@ const filteredTeams = computed(() => {
 
 const formatDate = (dateStr) => {
     if (!dateStr) {
-return '-';
-}
+        return '-';
+    }
 
     const options = {
         day: 'numeric',
@@ -59,8 +64,8 @@ return '-';
 
 const getKetuaName = (members) => {
     if (!members) {
-return '-';
-}
+        return '-';
+    }
 
     const ketua = members.find((m) => m.role === 'ketua');
 
@@ -101,7 +106,9 @@ return '-';
                 </div>
 
                 <!-- Search & Export -->
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center w-full flex-shrink-0 md:w-auto">
+                <div
+                    class="flex w-full flex-shrink-0 flex-col gap-3 sm:flex-row sm:items-center md:w-auto"
+                >
                     <!-- Search Input -->
                     <div class="relative w-full sm:w-64 md:w-80">
                         <span
@@ -121,7 +128,7 @@ return '-';
                     <a
                         :href="route('admin.submission.export')"
                         target="_blank"
-                        class="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 transition"
+                        class="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700"
                     >
                         <Download class="h-4 w-4" />
                         <span>Export Excel</span>

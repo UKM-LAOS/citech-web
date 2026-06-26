@@ -1,12 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import {
-    Download,
-    User,
-    Users,
-    Calendar,
-    FileDown,
-} from '@lucide/vue';
+import { Download, User, Users, Calendar, FileDown } from '@lucide/vue';
 import { computed } from 'vue';
 import CitechDashboardLayout from '@/components/CitechDashboardLayout.vue';
 
@@ -42,8 +36,8 @@ const mapTahap = (tahap) => {
 
 const formatTimelineDate = (start, end) => {
     if (!start || !end) {
-return '';
-}
+        return '';
+    }
 
     const startD = new Date(start);
     const endD = new Date(end);

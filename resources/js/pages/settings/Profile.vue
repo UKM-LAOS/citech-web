@@ -27,11 +27,11 @@ const user = computed(() => page.props.auth.user);
     <h1 class="sr-only">Pengaturan Profil</h1>
 
     <div class="flex flex-col space-y-6">
-        <div class="border-b border-slate-100 pb-4 mb-2">
+        <div class="mb-2 border-b border-slate-100 pb-4">
             <h3 class="text-lg font-extrabold text-slate-800">
                 Informasi Profil
             </h3>
-            <p class="text-xs font-bold text-slate-400 mt-1">
+            <p class="mt-1 text-xs font-bold text-slate-400">
                 Perbarui nama lengkap dan alamat email akun Anda.
             </p>
         </div>
@@ -42,10 +42,14 @@ const user = computed(() => page.props.auth.user);
             v-slot="{ errors, processing }"
         >
             <div class="grid gap-2">
-                <Label for="name" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Nama Lengkap</Label>
+                <Label
+                    for="name"
+                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                    >Nama Lengkap</Label
+                >
                 <Input
                     id="name"
-                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11!"
+                    class="mt-1 block h-11! w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none!"
                     name="name"
                     :default-value="user.name"
                     required
@@ -56,11 +60,15 @@ const user = computed(() => page.props.auth.user);
             </div>
 
             <div class="grid gap-2">
-                <Label for="email" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Alamat Email</Label>
+                <Label
+                    for="email"
+                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                    >Alamat Email</Label
+                >
                 <Input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full rounded-xl! border-slate-200! px-4! py-3! text-sm! font-semibold! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none! h-11! bg-slate-50! text-slate-500! cursor-not-allowed! select-none!"
+                    class="mt-1 block h-11! w-full cursor-not-allowed! rounded-xl! border-slate-200! bg-slate-50! px-4! py-3! text-sm! font-semibold! text-slate-500! select-none! focus:ring-2! focus:ring-[#1e4d8c]! focus:outline-none!"
                     name="email"
                     :default-value="user.email"
                     required
@@ -72,7 +80,7 @@ const user = computed(() => page.props.auth.user);
             </div>
 
             <div v-if="page.props.mustVerifyEmail && !user.email_verified_at">
-                <p class="text-slate-500 -mt-2 text-xs font-bold">
+                <p class="-mt-2 text-xs font-bold text-slate-500">
                     Alamat email Anda belum terverifikasi.
                     <Link
                         :href="send()"
@@ -87,14 +95,15 @@ const user = computed(() => page.props.auth.user);
                     v-if="page.props.status === 'verification-link-sent'"
                     class="mt-2 text-xs font-bold text-green-600"
                 >
-                    Tautan verifikasi baru telah dikirimkan ke alamat email Anda.
+                    Tautan verifikasi baru telah dikirimkan ke alamat email
+                    Anda.
                 </div>
             </div>
 
             <div class="flex items-center gap-4 pt-2">
                 <Button
                     :disabled="processing"
-                    class="flex items-center space-x-2 rounded-xl bg-[#1e4d8c] hover:bg-[#153a6b] px-8! py-3! h-11! text-xs font-black tracking-wider text-white shadow-md transition"
+                    class="flex h-11! items-center space-x-2 rounded-xl bg-[#1e4d8c] px-8! py-3! text-xs font-black tracking-wider text-white shadow-md transition hover:bg-[#153a6b]"
                     data-test="update-profile-button"
                 >
                     Simpan Perubahan
@@ -103,7 +112,7 @@ const user = computed(() => page.props.auth.user);
         </Form>
     </div>
 
-    <div class="border-t border-slate-100 pt-8 mt-8">
+    <div class="mt-8 border-t border-slate-100 pt-8">
         <DeleteUser />
     </div>
 </template>

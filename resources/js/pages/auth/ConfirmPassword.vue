@@ -22,18 +22,23 @@ const submit = () => {
     <Head title="Konfirmasi Password" />
 
     <div class="space-y-6">
-        <div class="border-b border-slate-100 pb-4 mb-2">
+        <div class="mb-2 border-b border-slate-100 pb-4">
             <h3 class="text-lg font-extrabold text-slate-800">
                 Konfirmasi Password Anda
             </h3>
-            <p class="text-xs font-bold text-slate-400 mt-1">
-                Ini adalah area aman aplikasi. Silakan konfirmasi password Anda sebelum melanjutkan.
+            <p class="mt-1 text-xs font-bold text-slate-400">
+                Ini adalah area aman aplikasi. Silakan konfirmasi password Anda
+                sebelum melanjutkan.
             </p>
         </div>
 
-        <form @submit.prevent="submit" class="space-y-6 max-w-xl">
+        <form @submit.prevent="submit" class="max-w-xl space-y-6">
             <div class="grid gap-2">
-                <label for="password" class="block text-[10px] font-black tracking-wider text-slate-400 uppercase">Password</label>
+                <label
+                    for="password"
+                    class="block text-[10px] font-black tracking-wider text-slate-400 uppercase"
+                    >Password</label
+                >
                 <input
                     id="password"
                     type="password"
@@ -50,7 +55,7 @@ const submit = () => {
             <div class="flex items-center justify-end">
                 <button
                     type="submit"
-                    class="flex items-center space-x-2 rounded-xl bg-[#1e4d8c] hover:bg-[#153a6b] px-8 py-3 text-xs font-black tracking-wider text-white shadow-md transition"
+                    class="flex items-center space-x-2 rounded-xl bg-[#1e4d8c] px-8 py-3 text-xs font-black tracking-wider text-white shadow-md transition hover:bg-[#153a6b]"
                     :disabled="form.processing"
                 >
                     <span>Konfirmasi</span>
