@@ -32,7 +32,7 @@ class TimTerdaftarController extends Controller
     /**
      * Export qualified teams list to CSV.
      */
-    public function export()
+    public function export(): StreamedResponse
     {
         $teams = Tim::with(['members', 'dokumen_registrasi', 'pembayaran'])
             ->whereIn('status_seleksi', StatusSeleksi::qualified())

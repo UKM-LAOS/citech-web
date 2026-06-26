@@ -29,7 +29,7 @@ class SubmissionController extends Controller
     /**
      * Export submission list to CSV.
      */
-    public function export()
+    public function export(): StreamedResponse
     {
         $teams = Tim::with(['submission'])
             ->whereHas('submission')
@@ -57,7 +57,7 @@ class SubmissionController extends Controller
             $sheet->setCellValue([2, $row], $team->nama_tim);
             $sheet->setCellValue([3, $row], $team->universitas);
             $sheet->setCellValue([4, $row], $team->submission ? $team->submission->link_file_submission : '-');
-            $sheet->setCellValue([5, $row], $team->submission && $team->submission->uploaded_at ? $team->submission->uploaded_at->format('Y-m-d H:i:s') : '-');
+            $sheet->setCellValue([5, $row], $team->submission && $team->submission->uploaded_at ? \Illuminate\Support\Carbon::parse($team->submission->uploaded_at)->format('Y-m-d H:i:s') : '-');
             $row++;
         }
 
