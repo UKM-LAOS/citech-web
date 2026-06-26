@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
             if ($this->app->bound('request')) {
                 request()->server->set('HTTPS', 'on');
+                request()->server->set('HTTP_X_FORWARDED_PROTO', 'https');
+                request()->headers->set('X-Forwarded-Proto', 'https');
             }
         }
 
