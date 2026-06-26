@@ -68,4 +68,12 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(Tim::class, 'id_tim', 'id_tim');
     }
+
+    /**
+     * Ensure status_pembayaran is always stored in lowercase.
+     */
+    public function setStatusPembayaranAttribute(?string $value): void
+    {
+        $this->attributes['status_pembayaran'] = $value !== null ? strtolower($value) : null;
+    }
 }
