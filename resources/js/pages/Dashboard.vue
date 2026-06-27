@@ -54,6 +54,17 @@ const formatTimelineDate = (start, end) => {
         ...yearOptions,
     });
 
+    const startDay = startD.getUTCDate();
+    const startMonth = startD.getUTCMonth();
+    const startYear = startD.getUTCFullYear();
+    const endDay = endD.getUTCDate();
+    const endMonth = endD.getUTCMonth();
+    const endYear = endD.getUTCFullYear();
+
+    if (startDay === endDay && startMonth === endMonth && startYear === endYear) {
+        return endStr;
+    }
+
     return `${startStr} - ${endStr}`;
 };
 

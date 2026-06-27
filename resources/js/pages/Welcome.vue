@@ -249,6 +249,10 @@ const formattedTimelineItems = computed(() => {
         const endMonth = end.getUTCMonth();
         const endYear = end.getUTCFullYear();
 
+        if (startDay === endDay && startMonth === endMonth && startYear === endYear) {
+            return `${startDay} ${getMonthName(startMonth)} ${startYear}`;
+        }
+
         if (startYear === endYear) {
             if (startMonth === endMonth) {
                 return `${startDay} - ${endDay} ${getMonthName(startMonth)} ${startYear}`;
